@@ -1,26 +1,29 @@
-  credentials.json     
-  sales_entry_credentials.json
-  sales_entry_token.json                                                                                                                                  
-  research_token.json
-  inventory.json                                                                                                                                          
-  *.pyc           
-  __pycache__/
-  .DS_Store
-  .vscode-server/
-  Applications/                                                                                                                                           
-  Desktop/
-  Documents/                                                                                                                                              
-  Downloads/      
-  Library/
-  Movies/
-  Music/
-  Pictures/
-  Public/
-  .cups/
-  .zsh_history
-  .zsh_sessions/
-  *.pdf
-  jpeg                                                                                                                                                    
-  EOF
-git add *.py pokota-relisting/ .gitignore
-git commit -m "初回アップロード"
+credentials.json
+sales_entry_credentials.json
+sales_entry_token.json
+research_token.json
+inventory.json
+*.pyc
+__pycache__/
+.DS_Store
+.vscode-server/
+.zshrc
+.ssh/
+Applications/
+Deskto
+  p/
+Documents/
+Downloads/
+Library/
+Movies/
+Music/
+Pictures/
+Public/
+.CFUserTextEncoding
+.cups/
+.gitconfig
+.zsh_history
+.zsh_sessions/
+Desktop/
+jpeg
+*.pdf
