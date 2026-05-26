@@ -2,8 +2,9 @@
 
 > **基板**: 30 × 28 mm（GPS搭載版 — AirTag相当サイズ）
 > **通信**: E220-900T22S(JP) LoRa 920MHz 技適済 (001-P01730)
-> **設計ファイル**: `lora-30x28-v3c.kicad_pcb` / `gerber-v3c/lora-30x28-v3c-gerber.zip`
+> **設計ファイル**: `lora-30x28-v3e.kicad_pcb` / `gerber-v3e/lora-30x28-v3e-gerber.zip`
 > **ピン配置**: 全部品データシート＋KiCadライブラリで確認済み (2026-05-26)
+> **v3e追加**: 3.3V電源配線 + RF 50Ω B_Cuトレース + GNDビア×8 (2026-05-27)
 
 ---
 
