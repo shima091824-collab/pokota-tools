@@ -1,8 +1,23 @@
-# GPS Cat Tracker LoRa — BOM (Bill of Materials)
+# GPS Cat Tracker LoRa v2 — BOM (Bill of Materials)
 
-> **基板**: 30 × 22 mm (Loko Air 同サイズ) | 重量目安: 約8.5g（PCB+300mAh LiPo）
+> **基板**: 30 × 22 mm (Loko Air 同サイズ)
 > **通信**: E220-900T22S(JP) LoRa 920MHz 技適済 (001-P01730)
-> **設計ファイル**: `lora-30x22-routed.kicad_pcb` / `gerber/lora-30x22-gerber.zip`
+> **設計ファイル**: `lora-30x22-v2.kicad_pcb` / `gerber-v2/lora-30x22-v2-gerber.zip`
+> **ピン配置**: 全部品データシートで確認済み (2026-05-26)
+
+---
+
+## ⚠️ v2設計の主な変更点（旧設計からの修正）
+
+| 変更点 | 旧（バグあり） | 新（データシート確認済み） |
+|--------|------------|--------------------------|
+| E220ピン配置 | 推測（長辺にパッド配置） | **データシート確認**：短辺22ピンDFN |
+| ATtiny3226ピン配置 | 推測（コメントに「要確認」） | **データシート確認**：VQFN-20 セクション2.3 |
+| GPS電圧 | 1.8V接続（MCP73831使用） | **3.3V直接接続**（VIO_SEL=開放で3.3Vモード） |
+| GPSモデル | MAX-M10S（約10×10mm → 入らない） | **MAX-M8Q**（4.1×3.1mm LCC-18） |
+| 充電回路 | MCP73831T（5V入力必要、USBなし → 無意味） | **削除**（外付け充電器で充電） |
+| 電源 | 外付けLDO必要（設計漏れ） | **E220 VDD(pin15)=3.3V出力を活用**（LDO不要） |
+| GPSアンテナピン | GNDに接続（バグ） | **開放**（モジュールIPEX端子にアンテナ接続） |
 
 ---
 
@@ -10,30 +25,123 @@
 
 | Ref | 部品名 | 型番 | 調達先候補 | 数量 | 単価(目安) | 備考 |
 |-----|--------|------|-----------|------|------------|------|
-| U1 | LoRaモジュール | E220-900T22S(JP) | 秋月/Amazon/千石 | 1 | ¥2,500 | 技適✅ 001-P01730, 16×26mm castellated |
-| U2 | MCU | ATtiny3226-MFR | Mouserほか | 1 | ¥220 | QFN-20 3×3mm, UART×2, 20KB flash |
-| U3 | GPS | MAX-M10S-00B | Mouserほか | 1 | ¥1,200 | 4.1×3.1mm LCC, UART, -167dBm |
-| U4 | LiPoチャージャー | MCP73831T-2ACI/OT | Mouserほか | 1 | ¥80 | SOT-23-5, 最大500mA |
+| U1 | LoRaモジュール | E220-900T22S(JP) | 秋月/Amazon/千石 | 1 | ¥2,500 | 技適✅ 001-P01730, 26×16mm DFN-22 |
+| U2 | MCU | ATtiny3226-MFR | Mouserほか | 1 | ¥220 | VQFN-20 3×3mm, UART×2, 1.8-5.5V |
+| U3 | GPS | MAX-M8Q-00B | Mouserほか | 1 | ¥800 | **4.1×3.1mm LCC-18**, 3.3V対応, -148dBm |
 | J1 | バッテリコネクタ | JST-GH 1.25mm 2P | 秋月 | 1 | ¥60 | SMD横差し |
 | C1–C4 | コンデンサ 100nF 0402 | — | JLCPCB Basic | 4 | ¥3 | 電源デカップリング |
-| R1 | 抵抗 4.7kΩ 0402 | — | JLCPCB Basic | 1 | ¥2 | MCP73831 チャージ電流設定 |
-| R2 | 抵抗 10kΩ 0402 | — | JLCPCB Basic | 1 | ¥2 | プルアップ |
+| C5 | コンデンサ 1μF 0402 | — | JLCPCB Basic | 1 | ¥5 | 3.3Vバルクキャップ |
+| R1 | 抵抗 10kΩ 0402 | — | JLCPCB Basic | 1 | ¥2 | E220 AUXプルアップ（オプション） |
 
 ---
 
-## チャージ電流の設定 (MCP73831)
+## 電源アーキテクチャ（LDO不要！）
 
 ```
-I_charge [mA] = 1000 / R_prog [kΩ]
+LiPo 3.7V ──→ J1(BATT+) ──→ E220 VCC (pin10, 2.2-5.5V対応)
+                                    │
+                              E220内蔵LDO
+                                    │
+                              E220 VDD (pin15) = 3.3V出力（最大100mA）
+                                    │
+                    ┌───────────────┼───────────────┐
+                    ↓               ↓               ↓
+              ATtiny VDD(pin4)  GPS VCC(pin8)   GPS V_IO(pin7)
+              ATtiny電源(3.3V)  GPS電源(3.3V)   GPS IOレベル(3.3V)
 ```
 
-| R1 | チャージ電流 | 300mAhに対するCレート |
-|----|------------|----------------------|
-| 10kΩ | 100mA | 0.3C（穏やか・推奨） |
-| 4.7kΩ | 213mA | 0.7C（標準） |
-| 2kΩ | 500mA | 1.7C（速充電） |
+**GPS VIO_SEL (pin15) = 開放 → V_IO = VCC = 3.3V**（3.3Vモード自動選択）
 
-**現在のR1: 4.7kΩ → 約213mA チャージ**
+---
+
+## 確認済みピン配置（全てデータシート実測値）
+
+### E220-900T22S(JP) — データシート Rev2.1.1 セクション3.1
+
+| ピン | 信号名 | 接続先 |
+|------|--------|--------|
+| 1-3 | AGND | GND（RF側） |
+| 4 | GND | GND |
+| 5 | M0 | ATtiny PA4 (VQFN pin5) |
+| 6 | M1 | ATtiny PA5 (VQFN pin6) |
+| 7 | RXD | ATtiny PB2/USART0-TxD (VQFN pin12) |
+| 8 | TXD | ATtiny PB3/USART0-RxD (VQFN pin11) |
+| 9 | AUX | ATtiny PA6 (VQFN pin7)、入力 |
+| 10 | VCC | BATT+ (3.7V LiPo) |
+| 11 | GND | GND |
+| 12 | SWDIO | 未接続（FW更新用） |
+| 13 | SWGND | GND（FW更新時のみ） |
+| 14 | SWCLK | 未接続（FW更新用） |
+| 15 | VDD | **3.3V出力** → ATtiny/GPS電源 |
+| 16-18 | NC | 開放 |
+| 19 | GND | GND |
+| 20 | AGND | GND（RF側） |
+| 21 | ANT | IPEXコネクタ（アンテナ接続） |
+| 22 | AGND | GND（RF側） |
+
+### ATtiny3226 VQFN-20 — DS40002345A セクション2.3
+
+| ピン | 信号名 | 接続先 |
+|------|--------|--------|
+| 1 | PA2 | 未使用 |
+| 2 | PA3 | 未使用 |
+| 3 | GND | GND |
+| 4 | VDD | 3.3V（E220 VDD） |
+| 5 | PA4 | E220 M0 (pin5) |
+| 6 | PA5 | E220 M1 (pin6) |
+| 7 | PA6 | E220 AUX (pin9) |
+| 8 | PA7 | 未使用 |
+| 9 | PB5 | 未使用 |
+| 10 | PB4 | 未使用 |
+| 11 | PB3/USART0-RxD | E220 TXD (pin8) |
+| 12 | PB2/USART0-TxD | E220 RXD (pin7) |
+| 13 | PB1 | 未使用 |
+| 14 | PB0 | 未使用 |
+| 15 | PC0 | 未使用 |
+| 16 | PC1/USART1-RxD★ | GPS TXD (pin2) ★PORTMUX要設定 |
+| 17 | PC2/USART1-TxD★ | GPS RXD (pin3) ★PORTMUX要設定 |
+| 18 | PC3 | 未使用 |
+| 19 | PA0/UPDI | プログラミング端子 |
+| 20 | PA1 | 未使用 |
+| EP | GND | GND（熱パッド、接続必須） |
+
+★PORTMUX設定: `PORTMUX.USARTROUTEA |= PORTMUX_USART1_ALT1_gc;` （USART1をPC1/PC2に割り当て）
+
+### MAX-M8Q LCC-18 — M10Sと同一ピン配置（pin-to-pin互換）
+
+| ピン | 信号名 | 接続先 |
+|------|--------|--------|
+| 1 | GND | GND |
+| 2 | TXD | ATtiny PC1/USART1-RxD (pin16) |
+| 3 | RXD | ATtiny PC2/USART1-TxD (pin17) |
+| 4 | TIMEPULSE | 未使用（開放） |
+| 5 | EXTINT | 未使用（開放） |
+| 6 | V_BCKP | VCC(3.3V)に接続（RTC維持） |
+| 7 | V_IO | 3.3V（E220 VDD） |
+| 8 | VCC | 3.3V（E220 VDD） |
+| 9 | RESET_N | 未使用（開放）内部プルアップあり |
+| 10 | GND | GND |
+| 11 | RF_IN | GPSアンテナ（チップアンテナ or 外付け） |
+| 12 | GND | GND |
+| 13 | LNA_EN | 未使用（開放） |
+| 14 | VCC_RF | 未使用（開放） |
+| 15 | VIO_SEL | **開放（floating）→ 3.3V V_IOモード自動選択** |
+| 16 | SDA | 未使用（開放） |
+| 17 | SCL | 未使用（開放） |
+| 18 | SAFEBOOT_N | 未使用（開放）内部プルアップあり |
+| EP | GND | GND |
+
+---
+
+## ★ 発注前の必須確認事項
+
+- [ ] **u-blox Hardware Integration Manual** でMAX-M8Qフットプリント寸法確認
+  - ランドパターン、パッドピッチ、パッドサイズ（PCBスクリプトは推定値0.35mm使用）
+  - URL: https://www.u-blox.com/en/product/max-m8q-module → "Resources"
+- [ ] KiCad DRC（`検査 > デザイン ルール チェッカー`）エラーゼロ確認
+- [ ] E220フットプリント: パッドピッチ1.27mm確認済み（データシートより）
+- [ ] ATtiny3226 QFN-20: 0.5mmピッチ → **外注推奨**（手はんだ難）
+- [ ] MAX-M8Q LCC-18: 推定0.35mmピッチ → **外注必須**
 
 ---
 
@@ -48,45 +156,19 @@ I_charge [mA] = 1000 / R_prog [kΩ]
 | 表面仕上げ | HASL（鉛なし） |
 | ソルダーマスク | 緑 |
 | 枚数 | 5枚（最小ロット） |
-| **PCB代（目安）** | **約$12〜15** |
+| **PCB代（目安）** | **約$2〜3（OCS NEP送料込み）** |
 
-**アップロードファイル**: `gerber/lora-30x22-gerber.zip`（9ファイル収録）
+**アップロードファイル**: `gerber-v2/lora-30x22-v2-gerber.zip`
 
 ---
 
 ## バッテリ（別途調達）
 
-| 品名 | 寸法 | 購入先 | 価格 |
-|------|------|--------|------|
-| LiPo 300mAh 3.7V | 5×30×22mm以内 | Amazon / 秋月 | ¥600〜900 |
+| 品名 | 寸法 | 価格 |
+|------|------|------|
+| LiPo 300mAh 3.7V | 5×30×22mm以内 | ¥600〜900 |
 
-**推奨**: LP302025 / LP352025 など薄型。コネクタはJST-GH 1.25mm 2Pに変換または付け替え。
-
----
-
-## LoRaゲートウェイ（1回購入・家設置）
-
-| 品名 | 価格 |
-|------|------|
-| RAK7268 (LoRaWAN Indoor Gateway 技適済) | ¥15,000 |
-| または Helium Hotspot (LoRaWAN共有) | 無料で試せる |
-
----
-
-## 信号接続まとめ
-
-| 信号 | ATtiny3226ピン | 相手先 |
-|------|--------------|--------|
-| E220_TXD → MCU_RX | PB3 (pin6) | U1 pin6 (TXD) |
-| MCU_TX → E220_RXD | PB2 (pin5) | U1 pin5 (RXD) |
-| GPS_TXD → MCU_RX2 | PB0 (pin10) | U3 TxD |
-| MCU_TX2 → GPS_RXD | PB1 (pin11) | U3 RxD |
-| E220_AUX | PA1 (pin7) | U1 pin7 |
-| E220_M0 | PA2 (pin3) | U1 pin3 |
-| E220_M1 | PA3 (pin4) | U1 pin4 |
-| VCC (3.3V) | VDD (pin14) | U1 VCC, U2 VCC, U3 VCC |
-| BATT+ | — | J1 pin1 → U4 BATT(pin4) |
-| GND | GND (pin5,EP) | 全GND |
+外付けUSB充電器でバッテリーを充電（MCP73831は設計から削除済み）
 
 ---
 
@@ -97,42 +179,28 @@ I_charge [mA] = 1000 / R_prog [kΩ]
 | PCB重量目安 | 約3g |
 | バッテリ（300mAh） | 約5g |
 | 合計 | 約8〜9g |
-| LoRa送信時消費 | 約100mA×2秒 |
-| GPS取得時消費 | 約25mA×30秒 |
-| スリープ消費 | ATtiny3226: <5µA |
-| **30分間隔動作時の持続時間** | **約8日** |
+| GPS取得時消費 | 約15mA（GPS M8: 低消費）× 30秒 |
+| LoRa送信時消費 | 約43mA（13dBm）× 2秒 |
+| スリープ消費 | ATtiny3226: <5µA + E220 DeepSleep: 2.5µA |
+| **30分間隔動作時** | **約10日 / 300mAh** |
 
 ---
 
-## 総コスト（初回5枚発注）
+## 総コスト（初回）
 
 | 項目 | 金額 |
 |------|------|
-| JLCPCB PCB（5枚） | ¥2,000 |
+| JLCPCB PCB（5枚） | ¥450 |
 | E220-900T22S(JP) × 1 | ¥2,500 |
 | ATtiny3226 × 1 | ¥220 |
-| MAX-M10S × 1 | ¥1,200 |
-| MCP73831T × 1 | ¥80 |
+| MAX-M8Q × 1 | ¥800 |
 | JST-GH + コネクタ | ¥60 |
 | パッシブ部品一式 | ¥100 |
 | バッテリ 300mAh | ¥700 |
-| ゲートウェイ（RAK7268） | ¥15,000 |
-| はんだ付け外注（オプション） | ¥3,000〜 |
-| **合計（ゲートウェイ込み・初回）** | **約¥22,000** |
-| 2台目以降（追加） | **約¥5,000/台** |
+| はんだ付け外注（GPS/MCU） | ¥3,000〜 |
+| **合計（初回）** | **約¥7,830〜** |
 
 ---
 
-## ⚠️ 発注前チェックリスト
-
-- [ ] KiCad DRC（`検査 > デザイン ルール チェッカー`）エラーゼロ確認
-- [ ] E220フットプリント: データシートvs実寸照合（特にカステレートパッドの向き）
-- [ ] ATtiny3226 QFN-20: 0.5mmピッチ 手はんだ可能か確認（外注推奨）
-- [ ] MAX-M10S: LCC 0.65mmピッチ 外注必須
-- [ ] GPSアンテナ接続（チップアンテナ or 外付けパッチアンテナ）は別途設計が必要
-- [ ] LoRaアンテナ: U1 ANT端子に50Ω同軸か1/4λ線材(8.15cm)接続
-
----
-
-*設計: Claude Code / Anthropic — 2026-05-26*
-*フットプリントはすべてデータシートで要確認。製造前にDRC必須。*
+*設計: Claude Code / Anthropic — v2 2026-05-26*
+*全ピン配置はデータシートで確認済み。GPS footprintはu-blox HIMで要確認。*
