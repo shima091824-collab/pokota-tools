@@ -2,8 +2,8 @@
 
 > **基板**: 30 × 28 mm（GPS搭載版 — AirTag相当サイズ）
 > **通信**: E220-900T22S(JP) LoRa 920MHz 技適済 (001-P01730)
-> **設計ファイル**: `lora-30x28-v3b.kicad_pcb` / `gerber-v3b/lora-30x28-v3b-gerber.zip`
-> **ピン配置**: 全部品データシートで確認済み (2026-05-26)
+> **設計ファイル**: `lora-30x28-v3c.kicad_pcb` / `gerber-v3c/lora-30x28-v3c-gerber.zip`
+> **ピン配置**: 全部品データシート＋KiCadライブラリで確認済み (2026-05-26)
 
 ---
 
@@ -26,7 +26,7 @@
 | GPS電圧 | 3.3V直接接続（VIO_SEL=開放で3.3Vモード） |
 | 充電回路 | 削除済み（外付け充電器で充電） |
 | 電源 | E220 VDD(pin15)=3.3V出力を活用（LDO不要） |
-| GPSアンテナ | 開放（チップアンテナ or IPEXコネクタ接続） |
+| GPSアンテナ | IPEX/U.FLコネクタ経由で外付けGPSパッチアンテナ接続 |
 
 ---
 
@@ -116,12 +116,19 @@ LiPo 3.7V ──→ J1(BATT+) ──→ E220 VCC (pin10, 2.2-5.5V対応)
 
 ★PORTMUX設定: `PORTMUX.USARTROUTEA |= PORTMUX_USART1_ALT1_gc;` （USART1をPC1/PC2に割り当て）
 
-### MAX-M8Q LCC-18 — 9.7×10.1mm（データシート実測値）
+### MAX-M8Q LCC-18 — 9.7×10.1mm（データシート UBX-15031506-R06 Table11確認済み）
 
-> **パッド仕様**: 9パッド/辺（長辺10.1mm側）、ピッチ1.1mm、パッドサイズ1.4×0.4mm
-> **★ 発注前にu-blox HIMでフットプリント寸法を必ず実測確認すること**
+> **パッド仕様（KiCadオフィシャルライブラリ ublox_MAX.kicad_mod + DS確認済み）**
+> - 9パッド/辺（長辺10.1mm = Y方向側）
+> - ピッチ E=1.1mm（DS Table11確認済み）
+> - 端から1番目パッドまで D=0.65mm（DS確認済み）
+> - パッドサイズ: **1.8mm × 0.8mm**（角パッド1,9,10,18は1.8mm × 0.7mm）
+> - パッドX位置: ±4.75mm（KiCadライブラリ実測値）
+> - **EP（サーマルパッド）なし**（LCC-18は側面パッドのみ）
+> - 動作電圧: VCC/VCC_IO = 2.7〜3.6V（typ 3.0V）→ 3.3V接続✓
+> - 重量: **0.6g**（DS確認済み）
 
-| ピン | 信号名 | 接続先 |
+| ピン | 信号名（M8Q） | 接続先 |
 |------|--------|--------|
 | 1 | GND | GND |
 | 2 | TXD | ATtiny PC1/USART1-RxD (pin16) |
@@ -129,34 +136,42 @@ LiPo 3.7V ──→ J1(BATT+) ──→ E220 VCC (pin10, 2.2-5.5V対応)
 | 4 | TIMEPULSE | 未使用（開放） |
 | 5 | EXTINT | 未使用（開放） |
 | 6 | V_BCKP | VCC(3.3V)に接続（RTC維持） |
-| 7 | V_IO | 3.3V（E220 VDD） |
+| 7 | **VCC_IO** | 3.3V（E220 VDD）※M8QではV_IOではなくVCC_IO |
 | 8 | VCC | 3.3V（E220 VDD） |
 | 9 | RESET_N | 未使用（開放）内部プルアップあり |
 | 10 | GND | GND |
-| 11 | RF_IN | GPSチップアンテナ（1575MHz対応品） |
+| 11 | RF_IN | IPEX/U.FLコネクタ → 外付けGPSパッチアンテナ |
 | 12 | GND | GND |
-| 13 | LNA_EN | 未使用（開放） |
+| 13 | LNA_EN | 未使用（開放）※M8Q/Cでアンテナ制御可能 |
 | 14 | VCC_RF | 未使用（開放） |
-| 15 | VIO_SEL | **開放（floating）→ 3.3V V_IOモード自動選択** |
+| 15 | **Reserved** | **開放（M8Qでは未接続）** ※M10SのVIO_SELとは全く別！ |
 | 16 | SDA | 未使用（開放） |
 | 17 | SCL | 未使用（開放） |
 | 18 | SAFEBOOT_N | 未使用（開放）内部プルアップあり |
-| EP | GND | GND（サーマルパッド、必須） |
+
+**⚠️ M8QとM10Sの違い:**
+- pin7: M8Q=**VCC_IO** / M10S=V_IO（どちらも3.3V接続）
+- pin15: M8Q=**Reserved**（開放）/ M10S=VIO_SEL（開放で3.3V選択）
+- 動作電圧: M8Q=2.7〜3.6V / M10S=1.71〜1.89V（VIO_SEL=openで3.3V I/Oモード）
 
 ---
 
 ## ★ 発注前の必須確認事項
 
-- [ ] **u-blox Hardware Integration Manual** でMAX-M8Qフットプリント寸法確認
-  - URL: https://www.u-blox.com/en/product/max-m8q-module → "Resources"タブ
-  - 確認項目: ランドパターン、パッドピッチ(目標1.1mm)、パッドサイズ、EPサイズ
-  - 現在の設定値: pitch=1.1mm, pad=1.4×0.4mm, EP=6.5×7.8mm（要HIM確認）
+- [x] **GPSフットプリント寸法確認済み**
+  - DS Table11: A=10.1mm, B=9.7mm, E=1.1mm(ピッチ), D=0.65mm(端〜1番パッド) 確認済み
+  - KiCad公式ライブラリ(ublox_MAX.kicad_mod): pad=1.8×0.8mm, X=±4.75mm 確認済み
+  - EP（サーマルパッド）なし 確認済み
+- [ ] **IPEX/U.FLコネクタをKiCadに手動追加**（GPS pin11=RF_IN接続用）
+  - 推奨: Hirose U.FL-R-SMT-1(10) または同等品
+  - 配置: GPS左辺(pin11)近傍、基板左寄り
 - [ ] KiCad DRC（`検査 > デザイン ルール チェッカー`）エラーゼロ確認
-- [ ] E220フットプリント: パッドピッチ1.27mm確認済み（データシートより）
+- [ ] E220フットプリント: パッドピッチ1.27mm確認済み（データシートより）✓
 - [ ] ATtiny3226 QFN-20: 0.5mmピッチ → **外注推奨**（手はんだ難）
 - [ ] MAX-M8Q LCC-18: 1.1mmピッチ → **外注推奨**（細密）
-- [ ] GPS用チップアンテナを選定・追加（1575.42MHz GPS対応品）
-  - 候補: Taoglas AA.161, Molex 2137640100など
+- [ ] GPS外付けアンテナ選定・調達（1575.42MHz パッシブGPS対応）
+  - 候補: Taoglas FXP.35 フレキシブルパッチアンテナ（小型軽量）
+  - または: 汎用GPSパッチアンテナ + U.FLケーブル（100〜200円）
 
 ---
 
@@ -189,16 +204,32 @@ LiPo 3.7V ──→ J1(BATT+) ──→ E220 VCC (pin10, 2.2-5.5V対応)
 
 ## 重量・バッテリ寿命
 
-| 項目 | 値 |
-|------|-----|
-| PCB重量目安 | 約3.5g（30×28mm） |
-| バッテリ（300mAh） | 約5g |
-| GPSチップアンテナ | 約0.5g |
-| 合計 | 約9〜10g |
-| GPS取得時消費 | 約15mA（M8Q: 低消費モード）× 30秒 |
-| LoRa送信時消費 | 約43mA（13dBm）× 2秒 |
-| スリープ消費 | ATtiny3226: <5µA + E220 DeepSleep: 2.5µA |
-| **30分間隔動作時** | **約10日 / 300mAh** |
+| 項目 | 値 | 出典 |
+|------|-----|------|
+| PCB重量目安 | 約3.5g（30×28mm） | 推定 |
+| GPS モジュール | **0.6g** | DS Table11実測値 |
+| バッテリ（300mAh） | 約5g | 仕様 |
+| アンテナ+U.FLケーブル | 約1g | 推定 |
+| **合計** | **約10〜11g** | |
+
+### 消費電流（MAX-M8Q、3.0V動作）— DS Table10実測値
+
+| モード | 電流 | 条件 |
+|--------|------|------|
+| GPS 取得中 | **26mA** | Acquisition（start〜first fix） |
+| GPS 連続追跡 | **23mA** | Tracking Continuous mode |
+| GPS 省電力追跡 | **6.2mA** | Tracking Power Save 1Hz mode |
+| LoRa 送信 | 43mA | 13dBm（E220 DS） |
+| スリープ | <7.5µA | ATtiny3226(<5µA) + E220 DeepSleep(2.5µA) |
+
+### バッテリ寿命計算（30分間隔、300mAh）
+
+| GPS動作モード | 計算式 | 寿命 |
+|-------------|-------|------|
+| 連続追跡（60秒GPS+2秒LoRa） | 26mA×15s + 23mA×45s + 43mA×2s = 20.5mAh/日 | **約14日** |
+| 省電力1Hz（60秒GPS+2秒LoRa） | 26mA×10s + 6.2mA×50s + 43mA×2s = 8.9mAh/日 | **約34日** |
+
+> 省電力モードはATtinyからGPS EXTINT(pin5)でコントロール可能（PowerSave設定）
 
 ---
 
@@ -233,5 +264,6 @@ LiPo 3.7V ──→ J1(BATT+) ──→ E220 VCC (pin10, 2.2-5.5V対応)
 
 ---
 
-*設計: Claude Code / Anthropic — v3 Plan-B 2026-05-26*
-*全ピン配置はデータシートで確認済み。GPS footprintはu-blox HIMで要確認。*
+*設計: Claude Code / Anthropic — v3c Plan-B 2026-05-26*
+*全ピン配置・footprint寸法はデータシート+KiCadオフィシャルライブラリで確認済み。*
+*MAX-M8Q DS: UBX-15031506-R06 | KiCad lib: ublox_MAX.kicad_mod | E220 DS: Rev2.1.1*
