@@ -1,10 +1,24 @@
-# GPS Cat Tracker LoRa v3 Plan-B — BOM (Bill of Materials)
+# GPS Cat Tracker LoRa v3n — BOM (Bill of Materials)
 
-> **基板**: 30 × 28 mm（GPS搭載版 — AirTag相当サイズ）
+> **基板**: 30 × 35 mm（充電回路搭載版・503035バッテリー対応）
 > **通信**: E220-900T22S(JP) LoRa 920MHz 技適済 (001-P01730)
-> **設計ファイル**: `lora-30x28-v3e.kicad_pcb` / `gerber-v3e/lora-30x28-v3e-gerber.zip`
+> **設計ファイル**: `lora-30x35-v3n.kicad_pcb`
 > **ピン配置**: 全部品データシート＋KiCadライブラリで確認済み (2026-05-26)
-> **v3e追加**: 3.3V電源配線 + RF 50Ω B_Cuトレース + GNDビア×8 (2026-05-27)
+> **v3n追加 (2026-05-28)**: USB-C充電回路 + TP4056 + MSK12C02電源SW + LED×2
+
+---
+
+## v3n 変更点（v3m からの追加）
+
+| 追加内容 | 詳細 |
+|---------|------|
+| 基板サイズ | 30×28mm → **30×35mm**（バッテリーと同フットプリント） |
+| USB-C充電 | SMDエッジマウント（VBUS/GND/CC1/CC2） |
+| 充電IC | TP4056 SOT-23-8（5kΩ PROG → 200mA充電） |
+| 電源SW | MSK12C02 SPDT（BATT+とE220 VCCを切断） |
+| 充電LED | 赤（充電中）・青（充電完了）各0402 |
+| CC抵抗 | R5/R6 5.1kΩ × 2（USB-C CC1/CC2プルダウン） |
+| バッテリー | **503035 LiPo（5×30×35mm 推定350mAh）** |
 
 ---
 
@@ -33,6 +47,8 @@
 
 ## 主要部品
 
+### 既存部品（v3m から継続）
+
 | Ref | 部品名 | 型番 | 調達先候補 | 数量 | 単価(目安) | 備考 |
 |-----|--------|------|-----------|------|------------|------|
 | U1 | LoRaモジュール | E220-900T22S(JP) | 秋月/Amazon/千石 | 1 | ¥2,500 | 技適✅ 001-P01730, 26×16mm DFN-22 |
@@ -42,6 +58,23 @@
 | C1–C4 | コンデンサ 100nF 0402 | — | JLCPCB Basic | 4 | ¥3 | 電源デカップリング |
 | C5 | コンデンサ 1μF 0402 | — | JLCPCB Basic | 1 | ¥5 | 3.3Vバルクキャップ |
 | R1 | 抵抗 10kΩ 0402 | — | JLCPCB Basic | 1 | ¥2 | E220 AUXプルアップ（オプション） |
+
+### v3n 追加部品
+
+| Ref | 部品名 | 型番 | 調達先候補 | 数量 | 単価(目安) | 備考 |
+|-----|--------|------|-----------|------|------------|------|
+| J2 | USB-C充電コネクタ | TYPE-C-31-M-12 等 | AliExpress/秋月 | 1 | ¥100 | SMDエッジマウント |
+| U4 | 充電IC | TP4056 | AliExpress/JLCPCB | 1 | ¥50 | SOT-23-8, 5V入力→LiPo充電 |
+| SW1 | 電源スイッチ | MSK12C02 | AliExpress | 1 | ¥30 | SPDT スライド, 4×3mm |
+| LED1 | 充電中LED（赤） | 0402 RED | JLCPCB Basic | 1 | ¥3 | 充電中点灯 |
+| LED2 | 充電完了LED（青） | 0402 BLUE | JLCPCB Basic | 1 | ¥3 | 満充電で点灯 |
+| R2 | PROG抵抗 | 5kΩ 0402 | JLCPCB Basic | 1 | ¥2 | 充電電流 1000/5000=**200mA** |
+| R3 | LED電流制限 | 330Ω 0402 | JLCPCB Basic | 1 | ¥2 | LED1用 |
+| R4 | LED電流制限 | 330Ω 0402 | JLCPCB Basic | 1 | ¥2 | LED2用 |
+| R5 | CC1プルダウン | 5.1kΩ 0402 | JLCPCB Basic | 1 | ¥2 | USB-C規格準拠（必須） |
+| R6 | CC2プルダウン | 5.1kΩ 0402 | JLCPCB Basic | 1 | ¥2 | USB-C規格準拠（必須） |
+| C6 | バイパスコンデンサ | 100nF 0402 | JLCPCB Basic | 1 | ¥3 | TP4056 VCC直近 |
+| — | LiPoバッテリー | **503035** | AliExpress/Amazon | 1 | ¥700 | 5×30×35mm 推定300〜400mAh |
 
 ---
 
