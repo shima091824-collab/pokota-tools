@@ -1,0 +1,3780 @@
+(export
+	(version "E")
+	(design
+		(source "/Users/m2mac/lte-m-cat-tracker/kicad/lte-m-cat-tracker.kicad_sch")
+		(date "2026-06-05T18:45:24")
+		(tool "Eeschema 10.0.3")
+		(sheet
+			(number "1")
+			(name "/")
+			(tstamps "/")
+			(title_block
+				(title "LTE-M 猫GPSトラッカー")
+				(company "Personal")
+				(rev "v1.1")
+				(date "2026-06-05")
+				(source "lte-m-cat-tracker.kicad_sch")
+				(comment
+					(number "1")
+					(value "30x35mm  SIM7080G-M + ESP32-C3 + LIS2DW12 + TP4056 + XC6220")
+				)
+				(comment
+					(number "2")
+					(value "USB-C→TP4056→LiPo350mAh→SW1→VBAT_SW→SIM7080G-M / XC6220 3.3V")
+				)
+				(comment
+					(number "3")
+					(value "JLCPCB PCBA全量  手はんだゼロ  SIM7080G-Mピン番号はHW Design v1.02確認要")
+				)
+				(comment
+					(number "4")
+					(value "")
+				)
+				(comment
+					(number "5")
+					(value "")
+				)
+				(comment
+					(number "6")
+					(value "")
+				)
+				(comment
+					(number "7")
+					(value "")
+				)
+				(comment
+					(number "8")
+					(value "")
+				)
+				(comment
+					(number "9")
+					(value "")
+				)
+			)
+		)
+	)
+	(components
+		(comp
+			(ref "ANT1")
+			(value "U.FL-LTE")
+			(footprint "Connector_Coaxial:U.FL_Hirose_U.FL-R-SMT-1_Vertical")
+			(fields
+				(field
+					(name "LCSC") "C317592")
+				(field
+					(name "Footprint") "Connector_Coaxial:U.FL_Hirose_U.FL-R-SMT-1_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "U.FL-R-SMT")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C317592")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "2bf86013-912e-4bcb-8bfe-9af61775afde")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "ANT2")
+			(value "U.FL-GNSS")
+			(footprint "Connector_Coaxial:U.FL_Hirose_U.FL-R-SMT-1_Vertical")
+			(fields
+				(field
+					(name "LCSC") "C317592")
+				(field
+					(name "Footprint") "Connector_Coaxial:U.FL_Hirose_U.FL-R-SMT-1_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "U.FL-R-SMT")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C317592")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "fcbc3b3b-5ff3-464e-935e-8183a32b8ca5")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "ANT3")
+			(value "2450AT18A100")
+			(footprint "lte-m-custom:ChipAntenna_2x1.25mm")
+			(fields
+				(field
+					(name "LCSC")
+				)
+				(field
+					(name "Footprint") "lte-m-custom:ChipAntenna_2x1.25mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "ChipAntenna-2450")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "3eba8fbc-82d9-4be5-9f8c-f0051803f708")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C1")
+			(value "100nF")
+			(footprint "Capacitor_SMD:C_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C14663")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C14663")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "4f7c0c25-30b8-4872-a94b-38a1f746d5d6")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C2")
+			(value "100nF")
+			(footprint "Capacitor_SMD:C_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C14663")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C14663")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "29302bb9-91f0-4e5a-9e1d-c83f14f500ae")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C3")
+			(value "100nF")
+			(footprint "Capacitor_SMD:C_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C14663")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C14663")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "976e1a01-9350-4426-93b2-6f805e3e2a0b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C4")
+			(value "100nF")
+			(footprint "Capacitor_SMD:C_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C14663")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C14663")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "6e0af730-bea3-44c2-b93b-61ed00cceaac")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C5")
+			(value "100nF")
+			(footprint "Capacitor_SMD:C_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C14663")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C14663")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "63c9729d-edfc-4d50-b6d6-9c9beadcb513")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C6")
+			(value "100nF")
+			(footprint "Capacitor_SMD:C_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C14663")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C14663")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "81cd7ca1-08f9-4e9c-acd3-5341a84b6673")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C7")
+			(value "100nF")
+			(footprint "Capacitor_SMD:C_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C14663")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C14663")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "c32c5836-6299-40bd-8e60-9dc4ab37fd31")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C8")
+			(value "100nF")
+			(footprint "Capacitor_SMD:C_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C14663")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C14663")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "08b5bf07-6970-4c6b-b77f-855b822f465e")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C9")
+			(value "10uF")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "LCSC") "C15850")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C15850")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "960d35e2-4786-414f-aaaa-624574e444f6")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C10")
+			(value "10uF")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "LCSC") "C15850")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C15850")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "eef3148b-efd6-4f6e-972b-a305231c4b21")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C11")
+			(value "10uF")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "LCSC") "C15850")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C15850")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "459278a6-07e0-410c-9991-cd84d7fc5d27")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C12")
+			(value "10uF")
+			(footprint "Capacitor_SMD:C_0805_2012Metric")
+			(fields
+				(field
+					(name "LCSC") "C15850")
+				(field
+					(name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "C15850")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "3332b990-9260-416c-b3a4-4def498f2185")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J1")
+			(value "JST-GH-1.25mm-2P")
+			(footprint "Connector_JST:JST_GH_SM02B-GHS-TB_1x02-1MP_P1.25mm_Horizontal")
+			(fields
+				(field
+					(name "LCSC") "C160404")
+				(field
+					(name "Footprint") "Connector_JST:JST_GH_SM02B-GHS-TB_1x02-1MP_P1.25mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "JST-GH-2P")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C160404")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0e065e40-cf36-4354-83e0-f7ac6a32dd51")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J2")
+			(value "USB-C-16P")
+			(footprint "lte-m-custom:USB_C_16P_SMD")
+			(fields
+				(field
+					(name "LCSC") "C2765186")
+				(field
+					(name "Footprint") "lte-m-custom:USB_C_16P_SMD")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "USB-C-16P")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C2765186")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "80653967-3261-4bed-9119-5bb9faa72ddb")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "S1")
+						)
+						(pin
+							(num "B1")
+						)
+						(pin
+							(num "A1")
+						)
+						(pin
+							(num "B5")
+						)
+						(pin
+							(num "A5")
+						)
+						(pin
+							(num "A6")
+						)
+						(pin
+							(num "A7")
+						)
+						(pin
+							(num "A4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "LED1")
+			(value "RED")
+			(footprint "LED_SMD:LED_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C2286")
+				(field
+					(name "Footprint") "LED_SMD:LED_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "LED")
+				(description "Light emitting diode")
+			)
+			(property
+				(name "LCSC")
+				(value "C2286")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "LED diode")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "LED* LED_SMD:* LED_THT:*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "b7540fc4-701a-4b66-a360-e79245f2b347")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R1")
+			(value "5.1k")
+			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C23186")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "LCSC")
+				(value "C23186")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "1e94c682-576f-42fa-9449-1318d85d9120")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R2")
+			(value "5.1k")
+			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C23186")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "LCSC")
+				(value "C23186")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "15075947-4f2e-49fd-b82c-0d6be2fe12af")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R3")
+			(value "3.3k")
+			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C25804")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "LCSC")
+				(value "C25804")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "e9acf106-bdcb-464d-8446-96b1cac2d5f9")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R4")
+			(value "1k")
+			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C11702")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "LCSC")
+				(value "C11702")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "8532539f-6567-4a12-a4ca-621c74d520b8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R5")
+			(value "10k")
+			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C25744")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "LCSC")
+				(value "C25744")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "13c3d0b5-8e27-43c4-8a21-ab2c668158a2")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R6")
+			(value "4.7k")
+			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C25900")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "LCSC")
+				(value "C25900")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "b6ae16f4-d756-4a7c-8476-d7e23bb7730e")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R7")
+			(value "4.7k")
+			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(fields
+				(field
+					(name "LCSC") "C25900")
+				(field
+					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "LCSC")
+				(value "C25900")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "4a9aae26-bf16-4ebd-b5c1-70bcc99af370")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "SIM1")
+			(value "SMN-305")
+			(footprint "lte-m-custom:SIM_SMN-305")
+			(fields
+				(field
+					(name "LCSC") "C266890")
+				(field
+					(name "Footprint") "lte-m-custom:SIM_SMN-305")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "SMN-305")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C266890")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "9086e433-0e86-4137-b91f-e02f3cc7b46a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "SW1")
+			(value "MSK12C02")
+			(footprint "lte-m-custom:SW_MSK12C02")
+			(fields
+				(field
+					(name "LCSC") "C431541")
+				(field
+					(name "Footprint") "lte-m-custom:SW_MSK12C02")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "MSK12C02")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C431541")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "530d588c-b7e3-43d7-829c-4422d8b7d361")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U1")
+			(value "SIM7080G-M")
+			(footprint "lte-m-custom:SIM7080GM_LCC77")
+			(fields
+				(field
+					(name "LCSC") "C18548266")
+				(field
+					(name "Footprint") "lte-m-custom:SIM7080GM_LCC77")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "SIM7080G-M")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C18548266")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "ce41dc08-0168-4726-bcf5-d75a0368845c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "20")
+						)
+						(pin
+							(num "22")
+						)
+						(pin
+							(num "23")
+						)
+						(pin
+							(num "24")
+						)
+						(pin
+							(num "25")
+						)
+						(pin
+							(num "38")
+						)
+						(pin
+							(num "39")
+						)
+						(pin
+							(num "40")
+						)
+						(pin
+							(num "41")
+						)
+						(pin
+							(num "42")
+						)
+						(pin
+							(num "43")
+						)
+						(pin
+							(num "75")
+						)
+						(pin
+							(num "76")
+						)
+						(pin
+							(num "77")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U2")
+			(value "ESP32-C3")
+			(footprint "Package_DFN_QFN:QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm")
+			(fields
+				(field
+					(name "LCSC") "C2838500")
+				(field
+					(name "Footprint") "Package_DFN_QFN:QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "MCU_Espressif")
+				(part "ESP32-C3")
+				(description "RF Module, ESP32 SoC, RISC-V, WiFi 802.11b/n/g, Bluetooth LE 5, QFN32")
+			)
+			(property
+				(name "LCSC")
+				(value "C2838500")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "WiFi BLE ESP32 Espressif")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "QFN*1EP*5x5mm*P0.5mm*EP3.7x3.7mm*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "e1630c89-2587-4054-aed2-5e9b73428047")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "25")
+						)
+						(pin
+							(num "26")
+						)
+						(pin
+							(num "28")
+						)
+						(pin
+							(num "27")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "29")
+						)
+						(pin
+							(num "30")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "33")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "31")
+						)
+						(pin
+							(num "32")
+						)
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "20")
+						)
+						(pin
+							(num "21")
+						)
+						(pin
+							(num "22")
+						)
+						(pin
+							(num "23")
+						)
+						(pin
+							(num "24")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U3")
+			(value "LIS2DW12TR")
+			(footprint "Package_LGA:LGA-12_2x2mm_P0.5mm")
+			(fields
+				(field
+					(name "LCSC") "C189624")
+				(field
+					(name "Footprint") "Package_LGA:LGA-12_2x2mm_P0.5mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LIS2DW12TR")
+				(description "")
+			)
+			(property
+				(name "LCSC")
+				(value "C189624")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "9a74741e-f2a2-4fcd-905c-6123ad211ed1")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "12")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U4")
+			(value "TP4056")
+			(footprint "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
+			(fields
+				(field
+					(name "LCSC") "C16581")
+				(field
+					(name "Footprint") "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Battery_Management")
+				(part "TP4056-42-ESOP8")
+				(description "1A Standalone Linear Li-ion/LiPo single-cell battery charger, 4.2V ±1% charge voltage, VCC = 4.0..8.0V, SOIC-8 (SOP-8)")
+			)
+			(property
+				(name "LCSC")
+				(value "C16581")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "lithium-ion lithium-polymer Li-Poly")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "*SO*3.9x4.*P1.27mm*EP2.4*x3.3*mm*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "eec0e2e9-0728-46e6-bcaa-367e1f807471")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U5")
+			(value "XC6220B331MR-G")
+			(footprint "Package_TO_SOT_SMD:SOT-23-5")
+			(fields
+				(field
+					(name "LCSC") "C86534")
+				(field
+					(name "Footprint") "Package_TO_SOT_SMD:SOT-23-5")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Regulator_Linear")
+				(part "XC6220B331MR")
+				(description "1A, Low Drop-out Voltage Regulator, Fixed Output 3.3V, SOT-23-5")
+			)
+			(property
+				(name "LCSC")
+				(value "C86534")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "LDO Voltage Regulator 1A")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "SOT?23*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "68736dde-5202-497b-8e08-f8636f06bc56")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+					)
+				)
+			)
+		)
+	)
+	(groups)
+	(variants)
+	(libparts
+		(libpart
+			(lib "Battery_Management")
+			(part "TP4056-42-ESOP8")
+			(description "1A Standalone Linear Li-ion/LiPo single-cell battery charger, 4.2V ±1% charge voltage, VCC = 4.0..8.0V, SOIC-8 (SOP-8)")
+			(docs "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121619_TOPPOWER-Nanjing-Extension-Microelectronics-TP4056-42-ESOP8_C16581.pdf")
+			(footprints
+				(fp "*SO*3.9x4.*P1.27mm*EP2.4*x3.3*mm*")
+			)
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "TP4056-42-ESOP8")
+				(field
+					(name "Footprint") "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm_ThermalVias")
+				(field
+					(name "Datasheet") "https://www.lcsc.com/datasheet/lcsc_datasheet_2410121619_TOPPOWER-Nanjing-Extension-Microelectronics-TP4056-42-ESOP8_C16581.pdf")
+				(field
+					(name "Description") "1A Standalone Linear Li-ion/LiPo single-cell battery charger, 4.2V ±1% charge voltage, VCC = 4.0..8.0V, SOIC-8 (SOP-8)")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "TEMP")
+					(type "input")
+				)
+				(pin
+					(num "2")
+					(name "PROG")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "4")
+					(name "V_{CC}")
+					(type "power_in")
+				)
+				(pin
+					(num "5")
+					(name "BAT")
+					(type "power_out")
+				)
+				(pin
+					(num "6")
+					(name "~{STDBY}")
+					(type "open_collector")
+				)
+				(pin
+					(num "7")
+					(name "~{CHRG}")
+					(type "open_collector")
+				)
+				(pin
+					(num "8")
+					(name "CE")
+					(type "input")
+				)
+				(pin
+					(num "9")
+					(name "EPAD")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "ChipAntenna-2450")
+			(fields
+				(field
+					(name "Reference") "ANT")
+				(field
+					(name "Value") "2450AT18A100")
+				(field
+					(name "Footprint") "lte-m-custom:ChipAntenna_2x1.25mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "RF")
+					(type "unspecified")
+				)
+				(pin
+					(num "2")
+					(name "GND")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "JST-GH-2P")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "JST-GH-2P")
+				(field
+					(name "Footprint") "Connector_JST:JST_GH_SM02B-GHS-TB_1x02-1MP_P1.25mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+				(field
+					(name "LCSC") "C160404")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "+")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "-")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "LIS2DW12TR")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "LIS2DW12TR")
+				(field
+					(name "Footprint") "Package_LGA:LGA-12_2x2mm_P0.5mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+				(field
+					(name "LCSC") "C189624")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "SDO/SA0")
+					(type "input")
+				)
+				(pin
+					(num "2")
+					(name "VDD")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "SCL/SPC")
+					(type "input")
+				)
+				(pin
+					(num "4")
+					(name "~{CS}")
+					(type "input")
+				)
+				(pin
+					(num "5")
+					(name "INT2")
+					(type "output")
+				)
+				(pin
+					(num "6")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "7")
+					(name "RES1")
+					(type "no_connect")
+				)
+				(pin
+					(num "8")
+					(name "RES2")
+					(type "no_connect")
+				)
+				(pin
+					(num "9")
+					(name "INT1")
+					(type "output")
+				)
+				(pin
+					(num "10")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "11")
+					(name "SDA/SDI")
+					(type "bidirectional")
+				)
+				(pin
+					(num "12")
+					(name "VDD_IO")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "MSK12C02")
+			(fields
+				(field
+					(name "Reference") "SW")
+				(field
+					(name "Value") "MSK12C02")
+				(field
+					(name "Footprint") "lte-m-custom:SW_MSK12C02")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+				(field
+					(name "LCSC") "C431541")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "A")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "B")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "SIM7080G-M")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "SIM7080G-M")
+				(field
+					(name "Footprint") "lte-m-custom:SIM7080GM_LCC77")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+				(field
+					(name "LCSC") "C18548266")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VBAT")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "VBAT")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "VBAT")
+					(type "power_in")
+				)
+				(pin
+					(num "4")
+					(name "VBAT")
+					(type "power_in")
+				)
+				(pin
+					(num "5")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "6")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "7")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "17")
+					(name "PWRKEY")
+					(type "input")
+				)
+				(pin
+					(num "18")
+					(name "STATUS")
+					(type "output")
+				)
+				(pin
+					(num "19")
+					(name "~{RESETN}")
+					(type "input")
+				)
+				(pin
+					(num "20")
+					(name "NETLIGHT")
+					(type "output")
+				)
+				(pin
+					(num "22")
+					(name "TXD")
+					(type "output")
+				)
+				(pin
+					(num "23")
+					(name "RXD")
+					(type "input")
+				)
+				(pin
+					(num "24")
+					(name "RTS")
+					(type "output")
+				)
+				(pin
+					(num "25")
+					(name "CTS")
+					(type "input")
+				)
+				(pin
+					(num "38")
+					(name "SIM_VDD")
+					(type "power_out")
+				)
+				(pin
+					(num "39")
+					(name "SIM_DATA")
+					(type "bidirectional")
+				)
+				(pin
+					(num "40")
+					(name "SIM_CLK")
+					(type "output")
+				)
+				(pin
+					(num "41")
+					(name "SIM_RST")
+					(type "output")
+				)
+				(pin
+					(num "42")
+					(name "SIM_DET")
+					(type "input")
+				)
+				(pin
+					(num "43")
+					(name "SIM_GND")
+					(type "power_in")
+				)
+				(pin
+					(num "75")
+					(name "LTE_ANT")
+					(type "unspecified")
+				)
+				(pin
+					(num "76")
+					(name "GNSS_ANT")
+					(type "unspecified")
+				)
+				(pin
+					(num "77")
+					(name "GND")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "SMN-305")
+			(fields
+				(field
+					(name "Reference") "SIM")
+				(field
+					(name "Value") "SMN-305")
+				(field
+					(name "Footprint") "lte-m-custom:SIM_SMN-305")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+				(field
+					(name "LCSC") "C266890")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VCC")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "DATA")
+					(type "bidirectional")
+				)
+				(pin
+					(num "3")
+					(name "CLK")
+					(type "input")
+				)
+				(pin
+					(num "4")
+					(name "RST")
+					(type "input")
+				)
+				(pin
+					(num "5")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "6")
+					(name "~{CD}")
+					(type "input")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "U.FL-R-SMT")
+			(fields
+				(field
+					(name "Reference") "ANT")
+				(field
+					(name "Value") "U.FL-R-SMT")
+				(field
+					(name "Footprint") "Connector_Coaxial:U.FL_Hirose_U.FL-R-SMT-1_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+				(field
+					(name "LCSC") "C317592")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "SIG")
+					(type "unspecified")
+				)
+				(pin
+					(num "2")
+					(name "GND")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "USB-C-16P")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "USB-C-16P")
+				(field
+					(name "Footprint") "lte-m-custom:USB_C_16P_SMD")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+				(field
+					(name "LCSC") "C2765186")
+			)
+			(pins
+				(pin
+					(num "A1")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "A4")
+					(name "VBUS")
+					(type "power_out")
+				)
+				(pin
+					(num "A5")
+					(name "CC1")
+					(type "passive")
+				)
+				(pin
+					(num "A6")
+					(name "D+")
+					(type "bidirectional")
+				)
+				(pin
+					(num "A7")
+					(name "D-")
+					(type "bidirectional")
+				)
+				(pin
+					(num "B1")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "B5")
+					(name "CC2")
+					(type "passive")
+				)
+				(pin
+					(num "S1")
+					(name "SHIELD")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
+			(part "C")
+			(description "Unpolarized capacitor")
+			(footprints
+				(fp "C_*")
+			)
+			(fields
+				(field
+					(name "Reference") "C")
+				(field
+					(name "Value") "C")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
+			(part "LED")
+			(description "Light emitting diode")
+			(footprints
+				(fp "LED*")
+				(fp "LED_SMD:*")
+				(fp "LED_THT:*")
+			)
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "LED")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Light emitting diode")
+				(field
+					(name "Sim.Pins") "1=K 2=A")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
+			(part "R")
+			(description "Resistor")
+			(footprints
+				(fp "R_*")
+			)
+			(fields
+				(field
+					(name "Reference") "R")
+				(field
+					(name "Value") "R")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "MCU_Espressif")
+			(part "ESP32-C3")
+			(description "RF Module, ESP32 SoC, RISC-V, WiFi 802.11b/n/g, Bluetooth LE 5, QFN32")
+			(docs "https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf")
+			(footprints
+				(fp "QFN*1EP*5x5mm*P0.5mm*EP3.7x3.7mm*")
+			)
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "ESP32-C3")
+				(field
+					(name "Footprint") "Package_DFN_QFN:QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm")
+				(field
+					(name "Datasheet") "https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf")
+				(field
+					(name "Description") "RF Module, ESP32 SoC, RISC-V, WiFi 802.11b/n/g, Bluetooth LE 5, QFN32")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "LNA_IN")
+					(type "bidirectional")
+				)
+				(pin
+					(num "2")
+					(name "VDD3P3")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "VDD3P3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "XTAL_32K_P")
+					(type "bidirectional")
+				)
+				(pin
+					(num "5")
+					(name "XTAL_32K_N")
+					(type "bidirectional")
+				)
+				(pin
+					(num "6")
+					(name "GPIO2")
+					(type "bidirectional")
+				)
+				(pin
+					(num "7")
+					(name "CHIP_EN")
+					(type "bidirectional")
+				)
+				(pin
+					(num "8")
+					(name "GPIO3")
+					(type "bidirectional")
+				)
+				(pin
+					(num "9")
+					(name "MTMS")
+					(type "bidirectional")
+				)
+				(pin
+					(num "10")
+					(name "MTDI")
+					(type "bidirectional")
+				)
+				(pin
+					(num "11")
+					(name "VDD3P3_RTC")
+					(type "power_in")
+				)
+				(pin
+					(num "12")
+					(name "MTCK")
+					(type "bidirectional")
+				)
+				(pin
+					(num "13")
+					(name "MTDO")
+					(type "bidirectional")
+				)
+				(pin
+					(num "14")
+					(name "GPIO8")
+					(type "bidirectional")
+				)
+				(pin
+					(num "15")
+					(name "GPIO9")
+					(type "bidirectional")
+				)
+				(pin
+					(num "16")
+					(name "GPIO10")
+					(type "bidirectional")
+				)
+				(pin
+					(num "17")
+					(name "VDD3P3_CPU")
+					(type "power_in")
+				)
+				(pin
+					(num "18")
+					(name "VDD_SPI")
+					(type "power_out")
+				)
+				(pin
+					(num "19")
+					(name "SPIHD")
+					(type "bidirectional")
+				)
+				(pin
+					(num "20")
+					(name "SPIWP")
+					(type "bidirectional")
+				)
+				(pin
+					(num "21")
+					(name "SPICS0")
+					(type "bidirectional")
+				)
+				(pin
+					(num "22")
+					(name "SPICLK")
+					(type "bidirectional")
+				)
+				(pin
+					(num "23")
+					(name "SPID")
+					(type "bidirectional")
+				)
+				(pin
+					(num "24")
+					(name "SPIQ")
+					(type "bidirectional")
+				)
+				(pin
+					(num "25")
+					(name "GPIO18")
+					(type "bidirectional")
+				)
+				(pin
+					(num "26")
+					(name "GPIO19")
+					(type "bidirectional")
+				)
+				(pin
+					(num "27")
+					(name "U0RXD")
+					(type "bidirectional")
+				)
+				(pin
+					(num "28")
+					(name "U0TXD")
+					(type "bidirectional")
+				)
+				(pin
+					(num "29")
+					(name "XTAL_N")
+					(type "bidirectional")
+				)
+				(pin
+					(num "30")
+					(name "XTAL_P")
+					(type "bidirectional")
+				)
+				(pin
+					(num "31")
+					(name "VDDA")
+					(type "power_in")
+				)
+				(pin
+					(num "32")
+					(name "VDDA")
+					(type "passive")
+				)
+				(pin
+					(num "33")
+					(name "GND")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "Regulator_Linear")
+			(part "XC6220B331MR")
+			(description "1A, Low Drop-out Voltage Regulator, Fixed Output 3.3V, SOT-23-5")
+			(docs "https://www.torexsemi.com/file/xc6220/XC6220.pdf")
+			(footprints
+				(fp "SOT?23*")
+			)
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "XC6220B331MR")
+				(field
+					(name "Footprint") "Package_TO_SOT_SMD:SOT-23-5")
+				(field
+					(name "Datasheet") "https://www.torexsemi.com/file/xc6220/XC6220.pdf")
+				(field
+					(name "Description") "1A, Low Drop-out Voltage Regulator, Fixed Output 3.3V, SOT-23-5")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VIN")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "CE")
+					(type "input")
+				)
+				(pin
+					(num "4")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "5")
+					(name "VOUT")
+					(type "power_out")
+				)
+			)
+		)
+	)
+	(libraries
+		(library
+			(logical "Battery_Management")
+			(uri "${KICAD10_SYMBOL_DIR}/Battery_Management.kicad_sym")
+		)
+		(library
+			(logical "Device")
+			(uri "${KICAD10_SYMBOL_DIR}/Device.kicad_sym")
+		)
+		(library
+			(logical "MCU_Espressif")
+			(uri "${KICAD10_SYMBOL_DIR}/MCU_Espressif.kicad_sym")
+		)
+		(library
+			(logical "Regulator_Linear")
+			(uri "${KICAD10_SYMBOL_DIR}/Regulator_Linear.kicad_sym")
+		)
+	)
+	(nets
+		(net
+			(code "1")
+			(name "+3.3V")
+			(class "Default")
+			(node
+				(ref "C1")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C10")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C2")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C3")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C4")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C5")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C6")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C7")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C8")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R5")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R6")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R7")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "11")
+				(pinfunction "VDD3P3_RTC_11")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "17")
+				(pinfunction "VDD3P3_CPU_17")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "18")
+				(pinfunction "VDD_SPI_18")
+				(pintype "power_out")
+			)
+			(node
+				(ref "U2")
+				(pin "2")
+				(pinfunction "VDD3P3_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "3")
+				(pinfunction "VDD3P3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "31")
+				(pinfunction "VDDA_31")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "32")
+				(pinfunction "VDDA_32")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "12")
+				(pinfunction "VDD_IO_12")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U3")
+				(pin "2")
+				(pinfunction "VDD_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U3")
+				(pin "4")
+				(pinfunction "~{CS}_4")
+				(pintype "input")
+			)
+			(node
+				(ref "U4")
+				(pin "8")
+				(pinfunction "CE_8")
+				(pintype "input")
+			)
+			(node
+				(ref "U5")
+				(pin "5")
+				(pinfunction "VOUT_5")
+				(pintype "power_out")
+			)
+		)
+		(net
+			(code "2")
+			(name "/ACCEL_INT1")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "16")
+				(pinfunction "GPIO10_16")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U3")
+				(pin "9")
+				(pinfunction "INT1_9")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "3")
+			(name "/CHRG")
+			(class "Default")
+			(node
+				(ref "R4")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U4")
+				(pin "7")
+				(pinfunction "~{CHRG}_7")
+				(pintype "open_collector")
+			)
+		)
+		(net
+			(code "4")
+			(name "/GNSS_ANT")
+			(class "Default")
+			(node
+				(ref "ANT2")
+				(pin "1")
+				(pinfunction "SIG_1")
+				(pintype "unspecified")
+			)
+			(node
+				(ref "U1")
+				(pin "76")
+				(pinfunction "GNSS_ANT_76")
+				(pintype "unspecified")
+			)
+		)
+		(net
+			(code "5")
+			(name "/I2C_SCL")
+			(class "Default")
+			(node
+				(ref "R7")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "15")
+				(pinfunction "GPIO9_15")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U3")
+				(pin "3")
+				(pinfunction "SCL/SPC_3")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "6")
+			(name "/I2C_SDA")
+			(class "Default")
+			(node
+				(ref "R6")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "14")
+				(pinfunction "GPIO8_14")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U3")
+				(pin "11")
+				(pinfunction "SDA/SDI_11")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "7")
+			(name "/LTE_ANT")
+			(class "Default")
+			(node
+				(ref "ANT1")
+				(pin "1")
+				(pinfunction "SIG_1")
+				(pintype "unspecified")
+			)
+			(node
+				(ref "U1")
+				(pin "75")
+				(pinfunction "LTE_ANT_75")
+				(pintype "unspecified")
+			)
+		)
+		(net
+			(code "8")
+			(name "/SIM_CLK")
+			(class "Default")
+			(node
+				(ref "SIM1")
+				(pin "3")
+				(pinfunction "CLK_3")
+				(pintype "input")
+			)
+			(node
+				(ref "U1")
+				(pin "40")
+				(pinfunction "SIM_CLK_40")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "9")
+			(name "/SIM_DATA")
+			(class "Default")
+			(node
+				(ref "SIM1")
+				(pin "2")
+				(pinfunction "DATA_2")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "U1")
+				(pin "39")
+				(pinfunction "SIM_DATA_39")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "10")
+			(name "/SIM_PWRKEY")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "17")
+				(pinfunction "PWRKEY_17")
+				(pintype "input")
+			)
+			(node
+				(ref "U2")
+				(pin "8")
+				(pinfunction "GPIO3_8")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "11")
+			(name "/SIM_RESETN")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "19")
+				(pinfunction "~{RESETN}_19")
+				(pintype "input")
+			)
+			(node
+				(ref "U2")
+				(pin "6")
+				(pinfunction "GPIO2_6")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "12")
+			(name "/SIM_RST")
+			(class "Default")
+			(node
+				(ref "SIM1")
+				(pin "4")
+				(pinfunction "RST_4")
+				(pintype "input")
+			)
+			(node
+				(ref "U1")
+				(pin "41")
+				(pinfunction "SIM_RST_41")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "13")
+			(name "/SIM_RXD")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "23")
+				(pinfunction "RXD_23")
+				(pintype "input")
+			)
+			(node
+				(ref "U2")
+				(pin "28")
+				(pinfunction "U0TXD_28")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "14")
+			(name "/SIM_STATUS")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "18")
+				(pinfunction "STATUS_18")
+				(pintype "output")
+			)
+			(node
+				(ref "U2")
+				(pin "4")
+				(pinfunction "XTAL_32K_P_4")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "15")
+			(name "/SIM_TXD")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "22")
+				(pinfunction "TXD_22")
+				(pintype "output")
+			)
+			(node
+				(ref "U2")
+				(pin "27")
+				(pinfunction "U0RXD_27")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "16")
+			(name "/SIM_VDD")
+			(class "Default")
+			(node
+				(ref "SIM1")
+				(pin "1")
+				(pinfunction "VCC_1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "38")
+				(pinfunction "SIM_VDD_38")
+				(pintype "power_out")
+			)
+		)
+		(net
+			(code "17")
+			(name "/VBAT")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "1")
+				(pinfunction "+_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "SW1")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U4")
+				(pin "5")
+				(pinfunction "BAT_5")
+				(pintype "power_out")
+			)
+		)
+		(net
+			(code "18")
+			(name "/VBAT_SW")
+			(class "Default")
+			(node
+				(ref "C11")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C12")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C9")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "SW1")
+				(pin "2")
+				(pinfunction "B_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "1")
+				(pinfunction "VBAT_1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "2")
+				(pinfunction "VBAT_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "3")
+				(pinfunction "VBAT_3")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "4")
+				(pinfunction "VBAT_4")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U5")
+				(pin "1")
+				(pinfunction "VIN_1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U5")
+				(pin "3")
+				(pinfunction "CE_3")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "19")
+			(name "/VUSB")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "A4")
+				(pinfunction "VBUS_A4")
+				(pintype "power_out")
+			)
+			(node
+				(ref "U4")
+				(pin "4")
+				(pinfunction "V_{CC}_4")
+				(pintype "power_in")
+			)
+		)
+		(net
+			(code "20")
+			(name "/WIFI_ANT")
+			(class "Default")
+			(node
+				(ref "ANT3")
+				(pin "1")
+				(pinfunction "RF_1")
+				(pintype "unspecified")
+			)
+			(node
+				(ref "U2")
+				(pin "1")
+				(pinfunction "LNA_IN_1")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "21")
+			(name "GND")
+			(class "Default")
+			(node
+				(ref "ANT1")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "ANT2")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "ANT3")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
+			)
+			(node
+				(ref "C1")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C10")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C11")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C12")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C2")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C3")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C4")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C5")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C6")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C7")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C8")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C9")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "2")
+				(pinfunction "-_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J2")
+				(pin "A1")
+				(pinfunction "GND_A1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "J2")
+				(pin "B1")
+				(pinfunction "GND_B1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "J2")
+				(pin "S1")
+				(pinfunction "SHIELD_S1")
+				(pintype "power_in")
+			)
+			(node
+				(ref "LED1")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R1")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R2")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R3")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "SIM1")
+				(pin "5")
+				(pinfunction "GND_5")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "43")
+				(pinfunction "SIM_GND_43")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "5")
+				(pinfunction "GND_5")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "6")
+				(pinfunction "GND_6")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "7")
+				(pinfunction "GND_7")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U1")
+				(pin "77")
+				(pinfunction "GND_77")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "33")
+				(pinfunction "GND_33")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U3")
+				(pin "1")
+				(pinfunction "SDO/SA0_1")
+				(pintype "input")
+			)
+			(node
+				(ref "U3")
+				(pin "10")
+				(pinfunction "GND_10")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U3")
+				(pin "6")
+				(pinfunction "GND_6")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U4")
+				(pin "3")
+				(pinfunction "GND_3")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U4")
+				(pin "9")
+				(pinfunction "EPAD_9")
+				(pintype "passive")
+			)
+			(node
+				(ref "U5")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
+			)
+		)
+	)
+)
