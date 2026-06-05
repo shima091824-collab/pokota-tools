@@ -72,7 +72,7 @@ def save_inventory(data):
         rows = []
         for name, lots in data.items():
             for lot in lots:
-                rows.append([name, lot['cost'], lot['date'], lot.get('stock', '')])
+                rows.append([name, lot['cost'] if lot.get('stock', 0) != 0 else '', lot['date'], lot.get('stock', '')])
         if rows:
             ws.update(values=rows, range_name='A2')
     except Exception as e:
@@ -243,7 +243,7 @@ class InventoryApp(tk.Tk):
             self.lot_tree.insert("", tk.END, iid=str(i), values=(
                 f"ロット{i+1}",
                 lot.get("date", ""),
-                f"¥{lot.get('cost', 0):,}",
+                f"¥{lot.get('cost', 0):,}" if lot.get('stock', 0) != 0 else "",
                 lot.get("stock", 0),
             ))
 

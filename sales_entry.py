@@ -56,7 +56,7 @@ def save_inventory(inventory):
         rows = []
         for name, lots in inventory.items():
             for lot in lots:
-                rows.append([name, lot['cost'], lot['date'], lot.get('stock', '')])
+                rows.append([name, lot['cost'] if lot.get('stock', 0) != 0 else '', lot['date'], lot.get('stock', '')])
         if rows:
             ws.update(values=rows, range_name='A2')
         print('  [在庫] スプレッドシート同期完了')
@@ -75,8 +75,8 @@ def get_cost_and_consume(title, inventory, qty=1):
             active = [lot for lot in lots if lot['stock'] > 0]
             if not active:
                 print(f'  [在庫警告] 「{keyword}」の在庫がゼロです')
-                # 在庫切れでも最後のロットの仕入れ値を返す（空欄より安全）
-                return lots[-1]['cost'] if lots else ''
+                cost = lots[-1]['cost'] if lots else 0
+                return cost if cost != 0 else ''
 
             # 先頭ロット（最古）から消費
             remaining = qty
@@ -169,7 +169,17 @@ def parse_int(val):
 
 def fetch_yahoo_csv(csv_path):
     sales = []
-    with open(csv_path, encoding='shift-jis') as f:
+    # Shift-JIS → UTF-8(BOM含む) の順で文字コードを自動判別
+    for enc in ('shift-jis', 'cp932', 'utf-8-sig'):
+        try:
+            with open(csv_path, encoding=enc) as f:
+                f.read(1024)
+            break
+        except UnicodeDecodeError:
+            continue
+    else:
+        enc = 'utf-8'
+    with open(csv_path, encoding=enc) as f:
         reader = csv.DictReader(f)
         for row in reader:
             tid    = row['商品ID'].strip()
@@ -294,9 +304,55 @@ def append_rows(sheets, new_sales, inventory):
 # メイン
 # ──────────────────────────────────────────────
 
+def find_yahoo_csv():
+    """~/Downloads から最新の Yahoo!フリマ CSVを自動検索する。"""
+    import glob
+    downloads = os.path.expanduser('~/Downloads')
+    # saleslist*.csv を対象
+    candidates = glob.glob(os.path.join(downloads, 'saleslist*.csv'))
+    if not candidates:
+        return None
+    # 更新日時が最新のものを返す
+    return max(candidates, key=os.path.getmtime)
+
+LOCK_FILE = os.path.expanduser('~/sales_entry.lock')
+
+def acquire_lock():
+    """二重起動防止ロック。既に起動中なら False を返す。"""
+    if os.path.exists(LOCK_FILE):
+        with open(LOCK_FILE) as f:
+            pid = f.read().strip()
+        # プロセスが実際に生きているか確認
+        try:
+            os.kill(int(pid), 0)
+            return False  # 既に起動中
+        except (ProcessLookupError, ValueError):
+            pass  # プロセスは死んでいる → ロックファイルが残骸
+    with open(LOCK_FILE, 'w') as f:
+        f.write(str(os.getpid()))
+    return True
+
+def release_lock():
+    try:
+        os.remove(LOCK_FILE)
+    except FileNotFoundError:
+        pass
+
 def main():
     print('=== sales_entry.py ===')
-    csv_path = sys.argv[1] if len(sys.argv) > 1 else None
+    if not acquire_lock():
+        print('⚠️  既に起動中です。二重起動を防止しました。')
+        sys.exit(0)
+    try:
+        _main()
+    finally:
+        release_lock()
+
+def _main():
+    if len(sys.argv) > 1:
+        csv_path = sys.argv[1]
+    else:
+        csv_path = find_yahoo_csv()
 
     # 在庫読み込み
     inventory = load_inventory()
@@ -309,7 +365,7 @@ def main():
     all_sales = []
 
     if csv_path:
-        print(f'\n[1/2] Yahoo!フリマ CSV読み込み中... ({csv_path})')
+        print(f'\n[1/2] Yahoo!フリマ CSV読み込み中... ({os.path.basename(csv_path)})')
         yahoo_sales = fetch_yahoo_csv(csv_path)
         print(f'  -> {len(yahoo_sales)}件取得')
         all_sales.extend(yahoo_sales)
