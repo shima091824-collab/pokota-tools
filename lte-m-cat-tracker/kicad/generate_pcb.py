@@ -110,37 +110,40 @@ PLACEMENTS = {
     # C1-C3: x=4.2 → ANT3 x_max=3.5をクリア、U2 x_min=5未満
     'C1':   (4.2,   21.5, 0,  'ESP32 bypass'),
     'C2':   (4.2,   23.5, 0,  'ESP32 bypass'),
-    'C3':   (4.2,   26.0, 0,  'ESP32 bypass'),
+    'C3':   (4.2,   25.5, 0,  'ESP32 bypass'),   # y=25.5 → SW1 y_min=26.25をクリア
     # C4-C6: y=19 → U2 courtyard y_min≈20をクリア
     'C4':   (6.5,   19.0, 0,  'ESP32 bypass'),
     'C5':   (8.5,   19.0, 0,  'ESP32 bypass'),
     'C6':   (10.5,  19.0, 0,  'ESP32 bypass'),
     'R5':   (13.0,  19.5, 0,  'CHIP_EN pullup'),
-    'R6':   (13.0,  21.5, 0,  'I2C SDA pullup'),
-    'R7':   (16.0,  21.5, 0,  'I2C SCL pullup'),
+    'R6':   (13.0,  21.0, 0,  'I2C SDA pullup'),
+    'R7':   (16.5,  21.5, 0,  'I2C SCL pullup'),  # x=16.5 → C8(x=14.5) courtyard外
     # U3 LIS2DW12 courtyard ~x=[12,15] y=[23,26]
     'U3':   (13.5,  24.5, 0,  'LIS2DW12'),
-    # C7/C8: U3直上 y=22.5 → U3 y_min=23をクリア
-    'C7':   (13.0,  22.5, 0,  'LIS bypass'),
-    'C8':   (14.5,  22.5, 0,  'LIS bypass'),
+    # C7: x=12.5 → U2 courtyard x_max≈11.5をクリア (gap=0.13mm)
+    # C8: 2.0mm間隔 → パッド短絡解消
+    'C7':   (12.5,  22.0, 0,  'LIS bypass'),
+    'C8':   (14.5,  22.0, 0,  'LIS bypass'),
 
     # ─── 中段右 (y=19-27, x=17-30): TP4056 + XC6220 ───
-    # U4 TP4056 SOIC-8 courtyard ~x=[19,25] y=[20,25]
-    'U4':   (22.0,  22.5, 0,  'TP4056'),
+    # U4 TP4056 SOIC-8 courtyard ~x=[18.1,24.9] y=[19.5,25.5]
+    # x=21.5に移動 → U5 x_min=25.6との隙間0.7mm確保
+    'U4':   (21.5,  22.5, 0,  'TP4056'),
     # U5 XC6220 SOT-23-5 courtyard ~x=[25.5,29.5] y=[20.5,23.5]
     'U5':   (27.5,  22.0, 0,  'XC6220 LDO'),
-    # C9/C10: y=25.5 → SIM1 courtyard y_min=26.7をクリア, U4 y_max=25をクリア
-    'C9':   (24.5,  25.5, 0,  'XC6220 VIN bypass'),
-    'C10':  (27.5,  25.5, 0,  'XC6220 VOUT bypass'),
-    # R3: TP4056 PROGピン近傍
-    'R3':   (18.0,  24.5, 0,  'PROG 3.3kΩ'),
+    # C9/C10: y=19.5, x=2.5mm間隔
+    # U4 courtyard x_max=24.9 < C9 x_min=25.13 ✓, U5 courtyard y_min=20.7 > y_max=20.16 ✓
+    'C9':   (26.0,  19.5, 0,  'XC6220 VIN bypass'),
+    'C10':  (28.5,  19.5, 0,  'XC6220 VOUT bypass'),
+    # R3: x=16.5 → U4 VUSB pad (x=19.025) との距離2mm確保、短絡解消
+    'R3':   (16.5,  24.5, 0,  'PROG 3.3kΩ'),
     # R4/LED1: x<17.2 → SIM1 courtyard外
     'R4':   (16.0,  26.3, 0,  'LED 1kΩ'),
     'LED1': (16.0,  27.5, 0,  'Charge LED'),
 
     # ─── SW1 左側中段 (スライドスイッチ・左辺アクセス可) ───
-    # courtyard x=[0,9] y=[26.95,31.05]
-    'SW1':  (4.5,   29.0, 0,  'Power SW'),
+    # y=28.85 → U2 courtyard y_max≈26.5をクリア(gap=0.35), J2 y_min=31をクリア(gap=0.1)
+    'SW1':  (4.5,   28.85, 0, 'Power SW'),
 
     # ─── SIM1 右下端 (右辺からカード挿入) ───
     # courtyard x=[17.2,30.0] y=[26.7,35.0] ← ボード内に収まる
@@ -151,9 +154,9 @@ PLACEMENTS = {
     'J1':   (3.5,   33.5, 0,  'JST LiPo'),
     # J2 USB-C: x=[6.7,16.3] → SIM1 x_min=17.2をクリア
     'J2':   (11.5,  33.0, 0,  'USB-C'),
-    # R1/R2 CC1/CC2: y=30.5 → J2 y_min=31をクリア, SW1 x_max=9をクリア
+    # R1/R2 CC1/CC2: 2.5mm間隔 → パッド短絡解消, SW1 x_max=9をクリア
     'R1':   (13.0,  30.5, 0,  'CC1 pulldown'),
-    'R2':   (14.5,  30.5, 0,  'CC2 pulldown'),
+    'R2':   (15.5,  30.5, 0,  'CC2 pulldown'),
 }
 
 # ─────────────────────────────────────────────
