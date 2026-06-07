@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/m2mac/lte-m-cat-tracker/kicad/lte-m-cat-tracker.kicad_sch")
-		(date "2026-06-05T18:45:24")
+		(date "2026-06-07T16:25:38")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -164,8 +164,7 @@
 			(footprint "lte-m-custom:ChipAntenna_2x1.25mm")
 			(fields
 				(field
-					(name "LCSC")
-				)
+					(name "LCSC") "C7464606")
 				(field
 					(name "Footprint") "lte-m-custom:ChipAntenna_2x1.25mm")
 				(field
@@ -182,7 +181,7 @@
 			)
 			(property
 				(name "LCSC")
-				(value "")
+				(value "C7464606")
 			)
 			(property
 				(name "Sheetname")
@@ -932,14 +931,74 @@
 			)
 		)
 		(comp
-			(ref "J1")
-			(value "JST-GH-1.25mm-2P")
-			(footprint "Connector_JST:JST_GH_SM02B-GHS-TB_1x02-1MP_P1.25mm_Horizontal")
+			(ref "C13")
+			(value "100uF_6.3V_PolymerAl")
+			(footprint "Capacitor_SMD:C_1210_3225Metric")
 			(fields
 				(field
-					(name "LCSC") "C160404")
+					(name "LCSC") "要LCSC確認")
 				(field
-					(name "Footprint") "Connector_JST:JST_GH_SM02B-GHS-TB_1x02-1MP_P1.25mm_Horizontal")
+					(name "Footprint") "Capacitor_SMD:C_1210_3225Metric")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "LCSC")
+				(value "要LCSC確認")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "lte-m-cat-tracker.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "f1e2d3c4-b5a6-9870-fedc-ba9876543210")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J1")
+			(value "JST-PH-2mm-2P")
+			(footprint "Connector_JST:JST_PH_S2B-PH-K-S_1x02_P2.00mm_Horizontal")
+			(fields
+				(field
+					(name "LCSC") "C295747")
+				(field
+					(name "Footprint") "Connector_JST:JST_PH_S2B-PH-K-S_1x02_P2.00mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -954,7 +1013,7 @@
 			)
 			(property
 				(name "LCSC")
-				(value "C160404")
+				(value "C295747")
 			)
 			(property
 				(name "Sheetname")
@@ -3456,6 +3515,11 @@
 			(name "/VBAT")
 			(class "Default")
 			(node
+				(ref "C13")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "J1")
 				(pin "1")
 				(pinfunction "+_1")
@@ -3613,6 +3677,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C13")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
 				(ref "C2")
 				(pin "2")
 				(pintype "passive")
@@ -3750,6 +3819,12 @@
 				(pin "10")
 				(pinfunction "GND_10")
 				(pintype "power_in")
+			)
+			(node
+				(ref "U3")
+				(pin "5")
+				(pinfunction "INT2_5")
+				(pintype "output")
 			)
 			(node
 				(ref "U3")
