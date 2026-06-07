@@ -6793,6 +6793,10 @@
 	(segment (start 23.0 16.3) (end 23.0 12.8) (width 0.2) (layer "F.Cu") (net "GNSS_ANT") (uuid "3c8cd3b2-b8d5-4212-9ad2-f63637b1ad84"))
 	(segment (start 23.0 12.8) (end 26.0 12.8) (width 0.2) (layer "F.Cu") (net "GNSS_ANT") (uuid "49ab6a74-17ed-4afe-bd48-b72e9358789a"))
 	(segment (start 26.0 12.8) (end 26.0 13.5) (width 1.4) (layer "F.Cu") (net "GNSS_ANT") (uuid "d895b55c-10f4-4fe2-938d-94b94453997b"))
+	(segment (start 6.05 21.75) (end 5.8 21.75) (width 0.2) (layer "F.Cu") (net "WIFI_ANT") (uuid "a1b2c3d4-e5f6-7890-abcd-ef1234567890"))
+	(segment (start 5.8 21.75) (end 5.8 20.87) (width 0.2) (layer "F.Cu") (net "WIFI_ANT") (uuid "b2c3d4e5-f6a7-8901-bcde-f12345678901"))
+	(segment (start 5.8 20.87) (end 0.5 20.87) (width 0.2) (layer "F.Cu") (net "WIFI_ANT") (uuid "c3d4e5f6-a7b8-9012-cdef-123456789012"))
+	(segment (start 0.5 20.87) (end 0.5 19.0) (width 0.2) (layer "F.Cu") (net "WIFI_ANT") (uuid "d4e5f6a7-b8c9-0123-defa-234567890123"))
 	(zone
 		(net "GND")
 		(layer "F.Cu")

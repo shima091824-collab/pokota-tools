@@ -680,11 +680,12 @@ python3 kicad/route_pcb_v8.py
 - **正解**: y=20.4に変更: trace y_max=20.55, pad y_min=20.65 → gap=0.10mm ✅
 - commit: 206871d
 
-#### 次セッション: WIFI_ANT手動配線（KiCad GUI必須）
-- PCBはcommit 206871d済み（短絡0件 ✅ / 未配線44件）
-- U2.pad1(6.05,21.75) → ANT3.pad1(1.8,17.0) を KiCad GUI で手動配線
-- 注意: SIM_PWRKEY F.Cu at y=17.20(x=2.2→5.65)・via at(2.2,17.20)を回避
-- 配線後DRC → commit → STEP4b残り3件（LiPo逆挿し保護・CPL回転角）へ
+#### WIFI_ANT配線完了（スクリプト直接編集、2026-06-08）
+- U2.pad1(6.05,21.75) → ANT3.pad1(0.5,19.0)、F.Cu、幅0.2mm
+- ルート: (6.05,21.75)→(5.8,21.75)→(5.8,20.87)→(0.5,20.87)→(0.5,19.0)（4セグメント）
+- 回避した障害物: +3.3Vビア(6.5,21.0)・C1 pad1(3.72,21.5)・+3.3V横線y=20.4
+- DRC: 短絡0件 ✅ / 未配線10件 / GND zone違反はKiCad BキーでRefillすれば解消
+- **次: KiCad GUIで開いてBキー(Refill Zones)→DRC確認→残り未配線9件の手動配線**
 
    **DRCフロー（必須）:**
    ```
