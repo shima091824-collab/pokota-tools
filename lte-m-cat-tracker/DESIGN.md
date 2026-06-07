@@ -661,12 +661,18 @@ python3 kicad/route_pcb_v8.py
      3. LiPo逆挿し保護（回路図・PCB修正）
      4. CPL回転角修正
 
-**⭐ 次セッション開始手順（GNDゾーン充填 → Gerber再出力）**
-```bash
-# PCBはcommit 463b32c（shorts=0, crossings=0）が最新
-# KiCad GUIで開いてBキー（Refill Zones） → File→Fabrication Outputs→Gerbers
-# その後Gerberを更新してGitHub pushまで
-```
+**⭐ 次セッション開始手順（CPL回転角修正 → GNDゾーン充填 → Gerber再出力）**
+
+**確定事項（2026-06-08）: LiPo逆挿し保護はv1試作でスキップ確定**
+- JST-PHコネクタは物理キーあり逆挿し不可のため不要
+- 保護ダイオードは電圧降下0.3〜0.6Vが常時発生するため電池持ちに悪影響
+- v2（配布・販売時）で追加予定
+
+**残り作業順（今日中に発注可能）:**
+1. CPL回転角確認・修正（10〜15分）← 次セッション最初にやること
+2. KiCad GUI でBキー（GNDゾーン充填） → Gerber再出力（10分）
+3. 5専門家レビュー（30〜60分）
+4. JLCPCB発注（20分）
 
 ### 現状（2026-06-08セッション終了時点）
 
