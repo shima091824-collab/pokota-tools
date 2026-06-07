@@ -642,10 +642,18 @@ python3 kicad/route_pcb_v8.py
    - DRC結果: **短絡0件 ✅ / 未配線43件**（GNDゾーン未充填分）
    - commit: 84c44ba
 
-**STEP 4: LCSC番号確認 → Gerber出力 → 5専門家レビュー → 発注**
-   - C13 LCSC番号をJLCPCBで確認（100μF 6.3V polymer/tantalum、1210）候補: C7090(KEMET), C2186(Murata), C50162等
-   - ANT3 LCSC C7464606を発注前に要確認（2450AT18A100、JLCPCB在庫確認）
-   - BOM/CPLファイルを更新（C13追加・J1変更反映）
+**✅ STEP 4a完了（2026-06-07）: LCSC番号確定・BOM/CPL作成**
+   - C13 LCSC: **C49326798**（AIDE 100μF 6.3V X5R MLCC 1210、Extended、$0.17、780在庫）
+     - MLCC X5R: DC bias 3.7Vで実効～50μF。v1試作として十分、v2でPolymer化を検討
+   - ANT3 LCSC: **C127629**（Walsin RFANT3216120A5T、1206=3.2×1.6mm、$0.12、95,830在庫）
+     - ⚠️ C7464606はタクトスイッチで誤り。C127629に変更確定。
+     - フットプリントを2×1.25mm→1206に変更（PCBファイル直接編集）
+     - 位置: (2.0,22.5)→(1.8,19.0)に移動（+3.3V配線との干渉回避）
+     - DRC確認済み: 短絡0件 ✅
+   - BOM: kicad/bom_jlcpcb.csv 作成済み（全20品番）
+   - CPL: kicad/cpl_jlcpcb.csv 作成済み（全33部品）
+
+**STEP 4b: Gerber出力 → 5専門家レビュー → 発注**
    - KiCad GUIでGerber出力（F.Cu, B.Cu, Edge.Cuts, F.Paste, B.Paste, F.SilkS, B.SilkS, F.Mask, B.Mask）
    - 5専門家並列レビュー（CLAUDE.md手順に従う）
    - JLCPCB発注

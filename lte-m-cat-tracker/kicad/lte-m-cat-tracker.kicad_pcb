@@ -551,12 +551,12 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint ""
+	(footprint "ChipAntenna_1206"
 		(layer "F.Cu")
 		(uuid "0d23f59b-1005-4494-a303-23e8cc2d9b4b")
-		(at 2 22.5)
+		(at 1.8 19.0)
 		(property "Reference" "ANT3"
-			(at 0 -3.5 0)
+			(at 0 -2.0 0)
 			(layer "F.SilkS")
 			(uuid "8a135b12-7b94-4e24-a447-8740c66aa619")
 			(effects
@@ -566,8 +566,8 @@
 				)
 			)
 		)
-		(property "Value" "2450AT18A100"
-			(at 0 3.5 0)
+		(property "Value" "RFANT3216120A5T"
+			(at 0 2.0 0)
 			(layer "F.Fab")
 			(uuid "74c0ff45-7fc2-442c-84d3-ef877af6f649")
 			(effects
@@ -588,7 +588,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "2.4GHz chip antenna 1206 Walsin RFANT3216120A5T"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -600,19 +600,9 @@
 			)
 		)
 		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -0.2 -0.6)
-			(end -0.2 0.6)
-			(stroke
-				(width 0.12)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "926cd6ac-c3bc-4dc7-b90a-ba6ed1f29e4b")
-		)
 		(fp_rect
-			(start -1.2 -0.8)
-			(end 1.2 0.8)
+			(start -1.8 -1.0)
+			(end 1.8 1.0)
 			(stroke
 				(width 0.05)
 				(type default)
@@ -622,8 +612,8 @@
 			(uuid "993fc769-600f-49ec-9f02-3c4f13124df1")
 		)
 		(fp_rect
-			(start -1 -0.625)
-			(end 1 0.625)
+			(start -1.6 -0.8)
+			(end 1.6 0.8)
 			(stroke
 				(width 0.1)
 				(type default)
@@ -633,16 +623,16 @@
 			(uuid "b4d19c9c-8a54-45f2-bca9-e6e1e2d9d288")
 		)
 		(pad "1" smd rect
-			(at -0.5 0)
-			(size 0.8 1.25)
+			(at -1.3 0)
+			(size 1.6 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "WIFI_ANT")
 			(thermal_bridge_angle 45)
 			(uuid "68ee3d42-2e2e-4866-9164-7bb84ee7251f")
 		)
 		(pad "2" smd rect
-			(at 0.5 0)
-			(size 0.8 1.25)
+			(at 1.3 0)
+			(size 1.6 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "GND")
 			(thermal_bridge_angle 45)
