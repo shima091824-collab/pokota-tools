@@ -688,11 +688,42 @@ python3 kicad/route_pcb_v8.py
 - 追加で解消した接続: SIM_CLK B.Cu gap・U2 pad2/3(+3.3V ビア経由B.Cu)・U3 pad2(+3.3V)・SIM_RST迂回（B.Cu x=27.0）
 - **残 tracks_crossing 5件（GUI手動修正）:**
   - +3.3V縦 × SIM_RESETN横（F.Cu、x=3.5, y=24.5）
-  - I2C_SCL × I2C_SDA（F.Cu、y=26.5共有）
+  - I2C_SCL × I2C_SDA（F.Cu、y=26.5共有）← SCL/SDAが同じチャンネルを共有する構造的問題
   - VBAT × VBAT_SW（F.Cu、x=2.88, y=28.5）
-  - VBAT × CHRG（F.Cu、x=25.0, y=26.3、スペース制限で自動修正不可）
-  - SIM_RXD縦 × SIM_TXD横（B.Cu、構造的問題・ビア移動が必要）
+  - VBAT × CHRG（F.Cu、x=25.0, y=26.3）
+  - SIM_RXD縦 × SIM_TXD横（B.Cu、x=8.75, y=13.0）
 - **次: KiCad GUIで開いてBキー(Refill Zones)→5件のtracks_crossing修正→STEP4b**
+
+---
+
+### スクリプト修正の試み記録（2026-06-08セッション）
+
+`kicad/fix_crossings_v2.py` でcrossing 1,3,4,5をB.Cu/F.Cuブリッジで修正を試みた。
+各修正の設計値（クリアランス確認済み）:
+
+| # | 修正内容 | 方法 |
+|---|---------|------|
+| 1 | SIM_RESETN (2.7,24.5→6.05,24.5) | B.Cuブリッジ x=3.0-4.0 (+3.3V縦 x=3.5を回避) |
+| 3 | VBAT_SW (2.0,28.5→10.55,28.5) | B.Cu経由: F.Cu左→via(1.0)→B.Cu右→via→C9 |
+| 4 | SIM_TXD (3.5,13.0→9.25,13.0) | F.Cuブリッジ x=8.0-9.25 (SIM_RXD B.Cu縦を回避) |
+| 5 | CHRG (25.5,26.3→16.51,26.3) | B.Cuブリッジ x=24.3-25.65 (VBAT縦 x=25.0を回避) |
+
+**問題**: fix_crossings_v2.py適用後、DRCで新たに6件のI2C交差が検出された。
+- 元の5件→7件に増加（crossing 1,3,4,5は解消されるが、I2C関連6件が新規検出）
+- スクリプト修正はI2Cセグメントを一切変更していないが、何らかの理由でDRCが検出するようになる
+- 原因不明：元のPCBファイルにはSCL/SDAがx=15.0縦線を共有するルーティングバグが存在するが、元のDRCでは検出されていなかった
+
+**教訓**: fix_crossings_v2.pyを適用するとI2C関連の新規crossing 6件が現れる（計7件）
+→ スクリプト適用は一旦保留。PCBはgit HEAD（5件状態）のまま。
+
+**⭐ 次セッション推奨**: KiCad GUIで全5件を手動修正する
+1. KiCad GUIでPCBを開く
+2. Bキー（Refill Zones）→GND未配線6件が解消
+3. I2C_SCL・I2C_SDAのy=26.5/x=15.0共有問題をRoute Tracksで修正
+   - SCLとSDAが同一経路(x=15.0, y=24.85-26.5 + y=26.5横線)を共有 → どちらかを別ルートへ
+   - SDAをy=27.0 or B.Cu経由で迂回させる（VBAT y=27.5との間は狭い）
+4. 残り4件（SIM_RESETN/VBAT_SW/SIM_TXD/CHRG）を手動修正
+5. DRC確認 → 短絡0件・crossing0件を確認
 
    **DRCフロー（必須）:**
    ```
