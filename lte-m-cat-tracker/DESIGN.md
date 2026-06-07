@@ -716,14 +716,38 @@ python3 kicad/route_pcb_v8.py
 **教訓**: fix_crossings_v2.pyを適用するとI2C関連の新規crossing 6件が現れる（計7件）
 → スクリプト適用は一旦保留。PCBはgit HEAD（5件状態）のまま。
 
-**⭐ 次セッション推奨**: KiCad GUIで全5件を手動修正する
-1. KiCad GUIでPCBを開く
-2. Bキー（Refill Zones）→GND未配線6件が解消
-3. I2C_SCL・I2C_SDAのy=26.5/x=15.0共有問題をRoute Tracksで修正
-   - SCLとSDAが同一経路(x=15.0, y=24.85-26.5 + y=26.5横線)を共有 → どちらかを別ルートへ
-   - SDAをy=27.0 or B.Cu経由で迂回させる（VBAT y=27.5との間は狭い）
-4. 残り4件（SIM_RESETN/VBAT_SW/SIM_TXD/CHRG）を手動修正
-5. DRC確認 → 短絡0件・crossing0件を確認
+### スクリプト修正の進捗（2026-06-08セッション2）
+
+**fix_crossings_v4.py 適用後（commit: 562193e）**
+- crossing: 6件→3件
+- shorts: 0件→11件（Fix2/3/4の座標ミス）
+- 未配線: 39件（断線なし・元と同数 ✅）
+
+**残りの短絡・crossingの根本原因（全件判明）:**
+
+| Fix | 問題 | 原因 | 修正値 |
+|-----|------|------|--------|
+| Fix2 SDA y=27.2 | SDA↔VBAT短絡 | VBAT y=27.5 幅0.5mm → edge y=27.25。SDA y=27.2 edge y=27.3 → 0.05mm重複 | y=27.0に変更 |
+| Fix3 VBAT x=1.5 | VBAT↔VBAT_SW短絡 | VBAT_SW幅0.5mm left edge x=1.75。VBAT x=1.5 right edge x=1.75 → 0mm | x=1.0に変更 |
+| Fix4 CHRG x=24.3 | CHRG↔VBAT短絡 | VBAT横線(25.0,24.405)→(23.975,24.405)がx=24.3縦と交差 | x=23.0に変更 |
+| Fix5 SIM_RXD S字 | SIM_RXD×SIM_TXD crossing | 戻り横線y=14.0がSIM_TXD縦x=9.25を通過 | SIM_TXD側を修正（x=8.5経由→y=21.1） |
+
+**⭐ 次セッション開始手順（fix_crossings_v5.py作成）:**
+```bash
+cd /Users/m2mac/lte-m-cat-tracker
+# HEADから再スタートしてv5を適用
+git checkout HEAD -- kicad/lte-m-cat-tracker.kicad_pcb
+python3 kicad/fix_crossings_v5.py
+# DRC → shorts=0, crossing=0を確認
+```
+
+**fix_crossings_v5.py 修正内容（v4からの変更点のみ）:**
+1. Fix2: SDA横線 y=27.2 → **y=27.0**
+2. Fix3: VBAT迂回 x=1.5 → **x=1.0**
+3. Fix4: CHRG縦 x=24.3 → **x=23.0**（VBAT横線y=24.405を回避）
+4. Fix5: SIM_RXD S字廃止 → **SIM_TXD横線をx=8.5で折り返しy=21.1経由**に変更
+
+**LED1座標の要確認:** v4でSDA x=16.0縦がLED1.pad1[GND]と短絡した記録あり。LED1座標をPCBファイルから確認してからv5を書くこと。
 
    **DRCフロー（必須）:**
    ```
