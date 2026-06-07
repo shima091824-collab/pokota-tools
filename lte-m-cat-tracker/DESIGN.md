@@ -661,7 +661,12 @@ python3 kicad/route_pcb_v8.py
      3. LiPo逆挿し保護（回路図・PCB修正）
      4. CPL回転角修正
 
-**⭐ 次セッション開始手順（RF配線幅修正の続き）**
+**⭐ 次セッション開始手順（GNDゾーン充填 → Gerber再出力）**
+```bash
+# PCBはcommit 463b32c（shorts=0, crossings=0）が最新
+# KiCad GUIで開いてBキー（Refill Zones） → File→Fabrication Outputs→Gerbers
+# その後Gerberを更新してGitHub pushまで
+```
 
 ### 現状（2026-06-08セッション終了時点）
 
@@ -732,20 +737,16 @@ python3 kicad/route_pcb_v8.py
 | Fix4 CHRG x=24.3 | CHRG↔VBAT短絡 | VBAT横線(25.0,24.405)→(23.975,24.405)がx=24.3縦と交差 | x=23.0に変更 |
 | Fix5 SIM_RXD S字 | SIM_RXD×SIM_TXD crossing | 戻り横線y=14.0がSIM_TXD縦x=9.25を通過 | SIM_TXD側を修正（x=8.5経由→y=21.1） |
 
-**⭐ 次セッション開始手順（fix_crossings_v5.py作成）:**
-```bash
-cd /Users/m2mac/lte-m-cat-tracker
-# HEADから再スタートしてv5を適用
-git checkout HEAD -- kicad/lte-m-cat-tracker.kicad_pcb
-python3 kicad/fix_crossings_v5.py
-# DRC → shorts=0, crossing=0を確認
-```
+**✅ fix_crossings_v5.py 完成・適用済み（2026-06-08 commit: 463b32c）**
+- shorts: 0件 ✅ / crossings: 0件 ✅ / 未配線: 39件（GNDゾーン未充填分）
 
-**fix_crossings_v5.py 修正内容（v4からの変更点のみ）:**
-1. Fix2: SDA横線 y=27.2 → **y=27.0**
-2. Fix3: VBAT迂回 x=1.5 → **x=1.0**
-3. Fix4: CHRG縦 x=24.3 → **x=23.0**（VBAT横線y=24.405を回避）
-4. Fix5: SIM_RXD S字廃止 → **SIM_TXD横線をx=8.5で折り返しy=21.1経由**に変更
+**v5実際の修正内容（試行錯誤の末確定）:**
+1. Fix2: SDA → y=27.0 + **x=13.65縦**（SCL縦x=17.5/+3.3V横群/CHRG横を全回避）
+2. Fix3: VBAT J1→SW1を**B.Cu縦x=2.875化**（via×2、VBAT_SW F.Cu要素を層分離で回避）
+3. Fix4: CHRG縦 **x=22.5**（VBAT pad5 left_edge=23.0からgap 0.4mm）
+4. Fix5: SIM_RXD S字廃止 + SIM_TXD **x=8.3迂回y=21.45**（SIM_RXD via(8.75,21.05)からgap 0.10mm）
+
+**次: GNDゾーン充填（KiCad GUI でB キー） → Gerber生成 → 5専門家レビュー**
 
 **LED1座標の要確認:** v4でSDA x=16.0縦がLED1.pad1[GND]と短絡した記録あり。LED1座標をPCBファイルから確認してからv5を書くこと。
 
