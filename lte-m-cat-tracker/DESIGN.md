@@ -684,8 +684,15 @@ python3 kicad/route_pcb_v8.py
 - U2.pad1(6.05,21.75) → ANT3.pad1(0.5,19.0)、F.Cu、幅0.2mm
 - ルート: (6.05,21.75)→(5.8,21.75)→(5.8,20.87)→(0.5,20.87)→(0.5,19.0)（4セグメント）
 - 回避した障害物: +3.3Vビア(6.5,21.0)・C1 pad1(3.72,21.5)・+3.3V横線y=20.4
-- DRC: 短絡0件 ✅ / 未配線10件 / GND zone違反はKiCad BキーでRefillすれば解消
-- **次: KiCad GUIで開いてBキー(Refill Zones)→DRC確認→残り未配線9件の手動配線**
+- DRC（2026-06-08最終 commit 682d94a）: 短絡0件 ✅ / 未配線6件（全GND zone）/ tracks_crossing 5件（GUI必要）
+- 追加で解消した接続: SIM_CLK B.Cu gap・U2 pad2/3(+3.3V ビア経由B.Cu)・U3 pad2(+3.3V)・SIM_RST迂回（B.Cu x=27.0）
+- **残 tracks_crossing 5件（GUI手動修正）:**
+  - +3.3V縦 × SIM_RESETN横（F.Cu、x=3.5, y=24.5）
+  - I2C_SCL × I2C_SDA（F.Cu、y=26.5共有）
+  - VBAT × VBAT_SW（F.Cu、x=2.88, y=28.5）
+  - VBAT × CHRG（F.Cu、x=25.0, y=26.3、スペース制限で自動修正不可）
+  - SIM_RXD縦 × SIM_TXD横（B.Cu、構造的問題・ビア移動が必要）
+- **次: KiCad GUIで開いてBキー(Refill Zones)→5件のtracks_crossing修正→STEP4b**
 
    **DRCフロー（必須）:**
    ```
