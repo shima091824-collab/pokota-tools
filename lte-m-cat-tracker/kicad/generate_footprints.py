@@ -81,102 +81,123 @@ def val_text(x, y):
 # ═══════════════════════════════════════════════════════════════
 def make_sim7080g():
     """
-    SIM7080G-M パッケージ: LCC+LGA 77pin
-    モジュール外形: 17.6 × 15.7 mm
+    SIM7080G-M LCC+LGA 77pin (17.6 × 15.7mm)
 
-    ⚠️ パッド座標はHW Design v1.02の実寸で確認必須
-    以下はSIMCom標準LCCパッケージの一般的な配置に基づく近似値
+    ピン配置根拠: SIMCom HW Design V1.04 + EasyEDA C18548266実座標確認済み
+    - 全4辺ペリメーター、ピッチ1.10mm (EasyEDA実測値)
+    - 左辺 (pin 1-12):  x=-8.75mm, y=-6.05〜+6.05, 0.80×1.10mm
+    - 下辺 (pin 13-21): y=+8.74mm, x=-4.40〜+4.40, 1.10×0.80mm
+    - 右辺 (pin 22-33): x=+8.75mm, y=+6.05〜-6.05, 0.80×1.10mm
+    - 上辺 (pin 34-42): y=-8.74mm, x=+4.40〜-4.40, 1.10×0.80mm (VBATはpin34,35)
+    - 内部LGA (pin 43-77): 5×7グリッド, GNSS_ANT(68)上辺右端(x=+4.40,y=-4.95)
 
-    ピン配置（推定）:
-    - 右辺(1-9): 短辺方向、ピッチ1.8mm
-    - 上辺(10-16): 長辺方向、ピッチ2.3mm
-    - 左辺(17-25): 短辺方向、ピッチ1.8mm
-    - 下辺(26-32): 長辺方向、ピッチ2.3mm
-    - LGAパッド(33-77): 内部グリッド
+    ⚠️ 内部LGA行順序は近似。I2C(64,65)/GPIO等の正確位置は
+       SIMCom HW Design V1.04 付属KiCad/PCBファイルで要確認。
     """
-    W = 17.60   # モジュール幅
-    H = 15.70   # モジュール高さ
+    W = 17.60   # モジュール幅 (x)
+    H = 15.70   # モジュール高さ (y)
+    PITCH = 1.10
 
-    # LCCパッド寸法（SIMCom標準）
-    PAD_SIDE_W = 1.00   # 短辺パッド幅（X方向）
-    PAD_SIDE_H = 1.50   # 短辺パッド高さ（Y方向）
+    # ランド中心座標 (page20 推荐PCB封装尺寸 + EasyEDA C18548266確認)
+    SIDE_X = 8.75   # 左右辺ランド中心 x=±8.75mm
+    TB_Y   = 8.74   # 上下辺ランド中心 y=±8.74mm
 
-    # 外縁からランド中心までのオフセット（カステレーション）
-    # 基板エッジ内に0.3mm + 外側に0.65mm のランド
-    OUTER = 0.55   # モジュール外縁からのランド中心
+    # パッドサイズ
+    # ピッチ方向は 1.10mm - 0.20mm(クリアランス) = 0.90mm
+    # 辺直交方向は 0.80mm (page20推奨値)
+    SIDE_W = 0.80   # 左右辺: x方向（辺直交）
+    SIDE_H = 0.90   # 左右辺: y方向（ピッチ方向、0.20mmクリアランス確保）
+    TB_W   = 0.90   # 上下辺: x方向（ピッチ方向）
+    TB_H   = 0.80   # 上下辺: y方向（辺直交）
+    LGA_SZ = 0.90   # 内部LGA: 正方形（ピッチ2.20mm×1.65mm内）
+
+    # 12パッド y座標 (ピッチ1.10mm, 中心対称): -6.05 〜 +6.05
+    side_ys = [-5.5 * PITCH + i * PITCH for i in range(12)]
+    # 9パッド x座標 (ピッチ1.10mm, 中心対称): -4.40 〜 +4.40
+    tb_xs   = [-4.0 * PITCH + i * PITCH for i in range(9)]
 
     lines = [mod_header("SIM7080GM_LCC77",
                         "SIM7080G-M LTE-M+GNSS module, LCC+LGA-77, 17.6x15.7mm. "
-                        "VERIFY PAD COORDS AGAINST HW DESIGN v1.02 BEFORE ORDERING!",
+                        "Pad layout per HW Design V1.04 + EasyEDA C18548266.",
                         "SIM7080G SIMCom LTE-M GNSS cellular")]
-    lines.append(ref_text(0, -9.5))
-    lines.append(val_text(0, 9.5))
+    lines.append(ref_text(0, -10.0))
+    lines.append(val_text(0, 10.0))
 
     # F.Fab アウトライン（モジュール本体）
     lines.append(fab_rect(-W/2, -H/2, W/2, H/2))
 
-    # F.Courtyard（実装余裕 0.5mm）
-    lines.append(courtyard(-W/2-0.5, -H/2-0.5, W/2+0.5, H/2+0.5))
+    # F.Courtyard（パッド外縁 + 0.25mm クリアランス）
+    # side pads: ±(8.75+0.40+0.25)=±9.40, tb pads: ±(8.74+0.40+0.25)=±9.39
+    lines.append(courtyard(-9.40, -9.40, 9.40, 9.40))
 
-    # F.SilkS アウトライン（モジュール外形）
+    # F.SilkS アウトライン
     lines.append(silk_line(-W/2, -H/2, W/2, -H/2))
     lines.append(silk_line(W/2, -H/2, W/2, H/2))
     lines.append(silk_line(W/2, H/2, -W/2, H/2))
     lines.append(silk_line(-W/2, H/2, -W/2, -H/2))
-    # ピン1マーカー（右下隅）
-    lines.append(silk_line(W/2-1.5, H/2, W/2, H/2-1.5))
+    # ピン1マーカー（左上隅: pin1=UART1_TXD は左辺の最上パッド）
+    lines.append(silk_line(-W/2, -H/2, -W/2+1.5, -H/2))
+    lines.append(silk_line(-W/2, -H/2, -W/2, -H/2+1.5))
 
-    pad_num = 1
+    # ── 左辺 (pins 1-12, top→bottom) ──────────────────────────────
+    # 1:UART1_TXD 2:UART1_RXD 3:UART1_RTS 4:UART1_CTS 5:UART1_DCD
+    # 6:UART1_DTR 7:UART1_RI 8:GND 9:PCM_DIN 10:PCM_DOUT
+    # 11:PCM_CLK 12:PCM_SYNC
+    for i, y in enumerate(side_ys):
+        lines.append(pad_smd(i + 1, -SIDE_X, y, SIDE_W, SIDE_H))
 
-    # ─── 右辺 (East): パッド1-9, y方向 ───
-    # 右辺: 9パッド、中心y=-7.20〜+7.20、ピッチ1.80mm
-    # ランドはモジュール外縁（x=W/2）の外側に突き出す
-    rx = W/2 + OUTER
-    right_pads_y = [-7.20 + i*1.80 for i in range(9)]
-    for y in right_pads_y:
-        lines.append(pad_smd(pad_num, rx, y, PAD_SIDE_H, PAD_SIDE_W))
-        pad_num += 1
+    # ── 下辺 (pins 13-21, left→right) ────────────────────────────
+    # 13:GND 14:GPIO5 15:SIM_DATA 16:SIM_CLK 17:SIM_RST
+    # 18:SIM_VDD 19:GND 20:USB_BOOT 21:GND
+    for i, x in enumerate(tb_xs):
+        lines.append(pad_smd(13 + i, x, +TB_Y, TB_W, TB_H))
 
-    # ─── 上辺 (North): パッド10-16, x方向 ───
-    # 上辺: 7パッド（y=-H/2の外側）
-    ty = -(H/2 + OUTER)
-    # 上辺パッド: x=+7.0〜-7.0, ピッチ=2.33mm
-    top_pads_x = [7.00 - i*2.33 for i in range(7)]
-    for x in top_pads_x:
-        lines.append(pad_smd(pad_num, x, ty, PAD_SIDE_W, PAD_SIDE_H))
-        pad_num += 1
+    # ── 右辺 (pins 22-33, bottom→top) ────────────────────────────
+    # 22:UART2_TXD 23:UART2_RXD 24:USB_VBUS 25:USB_DP 26:USB_DM
+    # 27:GND 28:NC 29:NC 30:GND 31:GND 32:RF_ANT 33:GND
+    for i, y in enumerate(reversed(side_ys)):
+        lines.append(pad_smd(22 + i, +SIDE_X, y, SIDE_W, SIDE_H))
 
-    # ─── 左辺 (West): パッド17-25, y方向 ───
-    lx = -(W/2 + OUTER)
-    left_pads_y = [7.20 - i*1.80 for i in range(9)]
-    for y in left_pads_y:
-        lines.append(pad_smd(pad_num, lx, y, PAD_SIDE_H, PAD_SIDE_W))
-        pad_num += 1
+    # ── 上辺 (pins 34-42, right→left) ────────────────────────────
+    # 34:VBAT 35:VBAT 36:GND 37:GND 38:ADC 39:PWRKEY
+    # 40:VDD_EXT 41:NETLIGHT 42:STATUS
+    for i, x in enumerate(reversed(tb_xs)):
+        lines.append(pad_smd(34 + i, x, -TB_Y, TB_W, TB_H))
 
-    # ─── 下辺 (South): パッド26-32, x方向 ───
-    by = H/2 + OUTER
-    bot_pads_x = [-7.00 + i*2.33 for i in range(7)]
-    for x in bot_pads_x:
-        lines.append(pad_smd(pad_num, x, by, PAD_SIDE_W, PAD_SIDE_H))
-        pad_num += 1
+    # ── 内部LGA (pins 43-77, 5列×7行) ────────────────────────────
+    # グリッド列 x: -4.40, -2.20, 0, +2.20, +4.40
+    # グリッド行 y: -4.95, -3.30, -1.65, 0, +1.65, +3.30, +4.95
+    # GNSS_ANT(68) は上辺右端 (col5=+4.40, row1=-4.95) に配置
+    #
+    # グリッド割り当て (行×列):
+    # Row1(y=-4.95): 43  44  45  46  68  ← GNSS_ANT 上辺右端
+    # Row2(y=-3.30): 47  48  49  50  51
+    # Row3(y=-1.65): 52  53  54  55  56
+    # Row4(y= 0.00): 57  58  59  60  61
+    # Row5(y=+1.65): 62  63  64  65  66
+    # Row6(y=+3.30): 67  69  70  71  72
+    # Row7(y=+4.95): 73  74  75  76  77
+    lga_cols = [-4.40, -2.20, 0.00, +2.20, +4.40]
+    lga_rows = [-4.95, -3.30, -1.65, 0.00, +1.65, +3.30, +4.95]
 
-    # ─── LGAパッド (33-77): 内部グリッド ───
-    # LGAパッドは底面、内部グリッド配置
-    # 推定: 5x9 = 45パッド（行×列）で45パッドが内部
-    # 実際は77-32=45パッドが内部LGA
-    LGA_PAD_W = 0.80
-    LGA_PAD_H = 0.80
-    # グリッド: X方向5列、Y方向9行
-    # X: -4.8〜+4.8 (ピッチ2.4mm), Y: -7.2〜+7.2 (ピッチ1.8mm)
-    lga_num = 33
-    for row in range(9):  # Y: -7.2〜+7.2
-        y = -7.20 + row*1.80
-        for col in range(5):  # X: -4.8〜+4.8
-            x = -4.80 + col*2.40
-            lines.append(pad_smd(lga_num, x, y, LGA_PAD_W, LGA_PAD_H))
-            lga_num += 1
+    # 行×列の順に並べたピン番号テーブル
+    lga_grid = [
+        [43, 44, 45, 46, 68],   # row1 top
+        [47, 48, 49, 50, 51],
+        [52, 53, 54, 55, 56],
+        [57, 58, 59, 60, 61],
+        [62, 63, 64, 65, 66],
+        [67, 69, 70, 71, 72],
+        [73, 74, 75, 76, 77],   # row7 bottom
+    ]
+    for row_idx, row_pins in enumerate(lga_grid):
+        y = lga_rows[row_idx]
+        for col_idx, pin in enumerate(row_pins):
+            x = lga_cols[col_idx]
+            lines.append(pad_smd(pin, x, y, LGA_SZ, LGA_SZ))
 
-    print(f"SIM7080G-M: {lga_num-1}パッド生成 (目標77)")
+    total = 42 + 35
+    print(f"SIM7080G-M: {total}パッド生成 (目標77)")
     lines.append(")")
     return "\n".join(lines)
 
