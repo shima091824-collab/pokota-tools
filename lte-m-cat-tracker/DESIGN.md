@@ -808,6 +808,24 @@ python3 kicad/route_pcb_v8.py
 
 ## ⭐ 次セッション開始手順（残作業）
 
+**残り作業: JLCPCB発注（カートに追加→BOM/CPLアップロード→CPL回転角確認→支払い）**
+
+### 発注作業の中断状態（2026-06-08）
+JLCPCBブラウザ操作を途中まで実施：
+- ✅ Gerber ZIP アップロード完了（`kicad/gerber_jlcpcb.zip`）
+- ✅ PCB設定確認済み: FR-4 / 2層 / 30×35mm / 5枚 / **0.8mm** / HASL / 緑
+- ✅ PCBアセンブリON / **標準PCBA** / 上面 / 5枚 / 部品の配置を確認=はい / 顧客による
+- 🔲 「カートに追加」ボタンを押していない（次セッションはここから）
+
+### 次セッション: JLCPCBカート追加→BOM/CPLアップロード手順
+1. [https://cart.jlcpcb.com/quote](https://cart.jlcpcb.com/quote) を開く
+2. 前回設定が残っていればそのまま「カートに追加」
+3. BOMアップロード: `kicad/bom_jlcpcb.csv`
+4. CPLアップロード: `kicad/cpl_jlcpcb.csv`
+5. **Parts Placementプレビューで全ICの向きを目視確認（特にU1 SIM7080G-M）**
+6. CPL回転角に誤りがあれば`cpl_jlcpcb.csv`のRotation列を修正して再アップロード
+7. サインイン→送付先住所→支払い
+
 **残り作業: JLCPCB発注のみ**
 
 ### Bring-up時の最優先確認事項（発注後）
