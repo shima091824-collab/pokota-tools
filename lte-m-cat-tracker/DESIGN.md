@@ -700,21 +700,140 @@ python3 kicad/route_pcb_v8.py
 
 ---
 
-## ⭐ 次セッション開始手順（5専門家レビュー → JLCPCB発注）
+## ⭐ 5専門家レビュー結果（2026-06-08 セッション4）
 
-### ✅ 完了（2026-06-08 セッション3、commit: 205dce5）
-- **STEP A**: dangling via 2本削除 + GNDビア(15.5→18.0,26.5)移動
-  - DRC(no-fill): shorts=0 ✅ / crossings=0 ✅ / via_dangling=10
-  - via_dangling残10件はGNDゾーン充填後に解消（GNDゾーンのみで接続されているビア）
-- **STEP B**: RF配線幅はfb3129e時点で実装済み（LTE/GNSS末端1.40mm）
-  - U1内部区間はLGAピッチ制約（隙間1.6mm < 1.40+0.2×2=1.8mm）で0.2mm維持は設計上やむを得ない
-- **STEP C**: Gerber再出力完了（kicad/gerber/）
+### ✅ 完了済み作業
+- **ゾーン再充填**: kicad-cli `--refill-zones --save-board` で実施（GUIなしでCLI完結）
+- **Gerber再出力**: `kicad/gerber/` に最新版保存
+- **DRC(with fill)**: shorts=0 ✅ / crossings=0 ✅ / drill_out_of_range=22 / unconnected=11
 
-### 次のアクション（発注前最終確認）
-1. **KiCad GUIでゾーン再充填必須**（Bキー → 保存）
-   - 再充填後に DRC 実施し shorts=0 / crossings=0 を確認
-2. **5専門家並列レビュー**（CLAUDE.md記載の強制フロー）
-3. **JLCPCB発注**（5枚製造・2枚実装）
+### 5専門家レビュー一覧
+
+| 専門家 | 判定 |
+|--------|------|
+| 回路設計エンジニア | **設計変更必要** |
+| RFエンジニア | **要修正** |
+| FWエンジニア | **要修正** |
+| DFMエンジニア | **設計変更必要** |
+| 電源・信頼性エンジニア | **要修正** |
+
+---
+
+## 致命的問題（発注ブロック）2026-06-08確定
+
+### 🔴 BLOCK-1: TP4056 PROGピン未接続（充電電流設定ゼロ）
+- **証拠**: U4.pad2(PROG)=NO_NET、R3.pad1=NO_NET
+- **影響**: PROGフロート時、充電電流最大1A → 350mAhバッテリーに3C充電 → **発火・損傷リスク**
+- **修正**: R3.pad1 ↔ U4.pad2 をネット接続（KiCad回路図修正 → Update PCB from Schematic → ルーティング）
+
+### 🔴 BLOCK-2: USB-C CC1/CC2 未接続（VBUS供給されない）
+- **証拠**: J2.A5(CC1)=NO_NET、J2.B5(CC2)=NO_NET、R1.pad2=NO_NET、R2.pad2=NO_NET
+- **影響**: USB Type-C仕様 §4.6.3.6 - UFP認識されずVBUS 5Vが供給されない → **充電できない**
+- **修正**: R1.pad2 ↔ J2.A5(CC1)、R2.pad2 ↔ J2.B5(CC2) をネット接続
+
+### 🔴 BLOCK-3: J2（USB-C）パッドが基板端に接触（copper_edge_clearance 0.00mm）
+- **証拠**: DRC copper_edge_clearance 11件（全てJ2周辺）
+- **影響**: J2パッドが基板端に接触しているため製造不可能
+- **修正**: J2を基板内側に0.5〜1mm移動、またはEdge_Cutsを0.5mm外側に拡張
+
+### 🔴 BLOCK-4: J2（USB-C）とC13の物理接触（0.00mm）
+- **証拠**: DRC courtyards_overlap + clearance 0.00mm
+- **影響**: USB-C端子とC13が物理干渉 → はんだブリッジ・VBUS-GND短絡リスク
+- **修正**: C13をY方向に1.5mm移動（J2から離す）
+
+### 🔴 BLOCK-5: U1 SIM7080G-M VBAT_SW デカップリング100nF欠如
+- **証拠**: U1周辺（15.0, 10.0）近傍に100nFコン存在せず（最近傍10μFコンは12.9mm離れ）
+- **影響**: SIM7080G-Mアプリノートで100nF+10μFをVBAT直近必須と規定。2Aバースト時の電圧リンギング
+- **修正**: U1 VBAT_SW端子直近（1〜2mm）に100nF 0402追加
+
+### 🔴 BLOCK-6: U5 XC6220B VIN デカップリング100nF欠如
+- **証拠**: U5(27.5,22.0)近傍に100nFなし（最近傍100nFは13mm離れ）
+- **影響**: XC6220Bデータシート: VIN直近100nF必須（発振防止）
+- **修正**: U5 VIN直近に100nF 0402追加
+
+### 🔴 BLOCK-7: ANT3（WiFiチップアンテナ）GND禁止ゾーン未設定
+- **証拠**: PCBにrule_area keepoutゾーンゼロ件。F.Cu GNDゾーンが基板全面に充填
+- **影響**: Walsin RFANT3216120A5T はアンテナ下・周囲3〜5mmのGND禁止を要求。共振周波数シフト、放射効率大幅低下 → WiFi機能不全
+- **修正**: ANT3周囲（全レイヤー、アンテナ端から最低3mm）にGND禁止rule_areaを追加
+
+### 🔴 BLOCK-8: LED回路断線（デバッグ支障）
+- **証拠**: R4.pad1=NO_NET、LED1.pad2=NO_NET（互いに接続するネットなし）
+- **影響**: 充電インジケータLED不動作（充電回路自体には影響なし）
+- **修正**: R4.pad1 ↔ LED1.pad2 をネット接続
+
+### 🔴 BLOCK-9: ドリル径不足（JLCPCB Standard製造不可）
+- **証拠**: drill_out_of_range 22件（0.15mm×2 / 0.20mm×7 / 0.25mm×13）
+- **影響**: JLCPCB Standard PCB（最小0.3mm）では製造拒否
+- **修正**: 発注時 **JLCPCB Advanced PCB（最小0.15mm対応）を選択**。KiCad設定のmin hole径を0.15mmに変更
+
+---
+
+## 要確認項目（修正推奨）
+
+| # | 内容 | 専門家 | 対処 |
+|---|------|--------|------|
+| A | TP4056 TEMPピン未接続（充電抑制リスク） | 回路・電源 | VCC or +3.3Vに接続して温度保護無効化 |
+| B | VBAT/VBAT_SWトレース幅0.5mm（余裕なし） | 電源 | 可能なら0.8mmに拡幅 |
+| C | XC6220B熱設計（WiFi 500mA時Tj=153℃ > 125℃定格） | 電源 | FWで電流制限 or 放熱パターン追加 |
+| D | GPIO2（SIM_TXD/ESP32 RX）がストラッピングピン | FW | 10kΩプルダウン追加推奨。実機起動確認で判断可 |
+| E | SIM7080G-M 1.8V I/O直結（v1許容判断済み） | 回路・FW | v2でレベルシフタ追加 |
+| F | C13（100μF）がVBATに接続（VBAT_SWでない） | 電源 | v2でVBAT_SWラインへ移動 |
+| G | LTE_ANT/GNSS_ANT の大部分が0.2mm配線（142Ω） | RF | ANT1/ANT2をU1RF端子直近に移動、3mm幅最短接続へ（大規模レイアウト変更） |
+| H | ANT1/ANT2間隔9mm（推奨15mm以上） | RF | 可能なら拡大。外部アンテナを直交配置で対処可 |
+| I | CPL回転角：全ICをJLCPCB発注画面で目視確認 | DFM | 発注時プレビューで確認 |
+| J | C13 LCSC番号確認（C49326798が正しいか確認要） | DFM | 発注前にLCSCで在庫・価格再確認 |
+| K | LTE_ANT/GNSS_ANT GNDゾーン禁止エリア（DFMが11件GND未接続を指摘） | DFM | ゾーン再充填後に確認 |
+
+---
+
+## 一次情報で確認済み・問題なし
+
+- USB-C CC抵抗5.1kΩ（UFP設定）← ネット接続さえすれば正しい ✅
+- XC6220 LDO接続（CE/VIN/Vout配線）✅
+- LIS2DW12 SDO=GND（I2Cアドレス0x18）✅
+- I2Cプルアップ（R6/R7 → +3.3V）✅
+- GPIO18/19 USB PHY競合なし（I2C_SDAはGPIO13 ← 前回レビューの誤認識訂正）✅
+- U2 GPIO割り当て: SIM_TXD→GPIO2 / SIM_RXD→GPIO3 / SIM_PWRKEY→GPIO8 / SIM_STATUS→GPIO4 / SIM_RESETN→GPIO6 / I2C_SDA→GPIO13 / I2C_SCL→GPIO14 / ACCEL_INT1→GPIO15 ✅
+- U.FLコネクタGNDパッド接続（ANT1.pad2=GND, ANT2.pad2=GND）✅
+- SIM7080G-M VBAT電圧範囲（3.4〜4.2V、定格3.4〜4.4V）✅
+- 電源トポロジー（VBAT → SW1 → VBAT_SW → U1/U5）✅
+- LIS2DW12 LGA-12（JLCPCB実装対応）✅
+
+---
+
+## ⭐ 次セッション開始手順（修正作業）
+
+**発注まで残り作業: BLOCK-1〜9の修正 → DRC確認 → Gerber再出力 → JLCPCB Advanced PCB発注**
+
+### 優先順序
+
+**PHASE 1: 回路図修正（KiCad Schematic Editor）**
+1. R3.pad1 ↔ U4.pad2(PROG) を `PROG` ネットで接続 【BLOCK-1】
+2. R1.pad2 ↔ J2.A5(CC1) を `CC1` ネットで接続 【BLOCK-2】
+3. R2.pad2 ↔ J2.B5(CC2) を `CC2` ネットで接続 【BLOCK-2】
+4. R4.pad1 ↔ LED1.pad2 を `LED_ANODE` ネットで接続 【BLOCK-8】
+5. U4.pad1(TEMP) ↔ +3.3V に接続（温度保護無効化）【要確認A】
+6. U5 VIN直近に100nF 0402追加（VBAT_SWネット）【BLOCK-6】
+7. U1 VBAT_SW直近に100nF 0402追加 【BLOCK-5】
+
+**PHASE 2: PCBレイアウト修正（KiCad PCB Editor / スクリプト）**
+1. J2を基板内側0.5mmに移動（copper_edge_clearance解消）【BLOCK-3】
+2. C13をJ2から1.5mm離す（courtyards_overlap解消）【BLOCK-4】
+3. ANT3周囲にGND禁止ゾーン追加（全レイヤー、3mm以上）【BLOCK-7】
+4. Update PCB from Schematic → 新規ネット（PROG/CC1/CC2/LED_ANODE）のルーティング
+5. 新規部品（100nF × 2）の配置・ルーティング
+
+**PHASE 3: 発注準備**
+1. DRC実施（shorts=0, unconnected=0, 新規エラーなし）
+2. BOM/CPL更新（新規部品追加）
+3. Gerber再出力
+4. JLCPCB発注画面でCPL回転角目視確認
+5. **Advanced PCB**オプションを選択（最小ドリル径0.15mm以下）
+
+### ⚠️ 注意事項
+- BLOCK-3（J2移動）後は周辺配線（VUSB等）の再ルーティングが必要
+- ANT3 GND禁止ゾーン追加後はゾーン再充填必須
+- 新規100nFコン2個の追加はBOM/CPLにも反映すること
 
 ### GNDビア現在位置（205dce5時点）
 - (4.0,18.5) × 2本（重複あり）
