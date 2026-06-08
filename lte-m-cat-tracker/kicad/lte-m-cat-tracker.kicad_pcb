@@ -209,7 +209,7 @@
 	(footprint ""
 		(layer "F.Cu")
 		(uuid "085ad8fe-1ba4-4e00-ba5b-c88df4c015cf")
-		(at 12 33)
+		(at 12 32.5)
 		(property "Reference" "J2"
 			(at 0 -3.5 0)
 			(layer "F.SilkS")
@@ -5181,7 +5181,7 @@
 	(footprint "Capacitor_SMD:C_1210_3225Metric"
 		(layer "F.Cu")
 		(uuid "af258891-b5d7-48db-a545-dfe9adb83991")
-		(at 9 33.3)
+		(at 4.5 33.3)
 		(property "Reference" "C13"
 			(at 0 -2.3 0)
 			(layer "F.SilkS")
@@ -10019,4 +10019,49 @@
 		)
 	)
 	(embedded_fonts no)
+
+	(zone
+		(net 0)
+		(net_name "")
+		(layer "F.Cu")
+		(uuid "0f5cb5af-0306-40b6-9ecc-bfe1dc5ece1a")
+		(hatch edge 0.508)
+		(keepout
+			(tracks allowed)
+			(vias allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(polygon
+			(pts
+				(xy -0.5 15.5)
+				(xy 6.5 15.5)
+				(xy 6.5 22.5)
+				(xy -0.5 22.5)
+			)
+		)
+	)
+	(zone
+		(net 0)
+		(net_name "")
+		(layer "B.Cu")
+		(uuid "b940c364-0a0d-40dc-b006-799a0e554f3c")
+		(hatch edge 0.508)
+		(keepout
+			(tracks allowed)
+			(vias allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(polygon
+			(pts
+				(xy -0.5 15.5)
+				(xy 6.5 15.5)
+				(xy 6.5 22.5)
+				(xy -0.5 22.5)
+			)
+		)
+	)
 )
