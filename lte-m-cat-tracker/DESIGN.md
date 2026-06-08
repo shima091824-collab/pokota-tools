@@ -761,10 +761,13 @@ python3 kicad/route_pcb_v8.py
 - **影響**: 充電インジケータLED不動作（充電回路自体には影響なし）
 - **修正**: R4.pad1 ↔ LED1.pad2 をネット接続
 
-### 🔴 BLOCK-9: ドリル径不足（JLCPCB Standard製造不可）
-- **証拠**: drill_out_of_range 22件（0.15mm×2 / 0.20mm×7 / 0.25mm×13）
-- **影響**: JLCPCB Standard PCB（最小0.3mm）では製造拒否
-- **修正**: 発注時 **JLCPCB Advanced PCB（最小0.15mm対応）を選択**。KiCad設定のmin hole径を0.15mmに変更
+### ✅ BLOCK-9: ドリル径修正済（Standard PCB対応）
+- **旧状態**: drill_out_of_range 22件（0.15mm×2 / 0.20mm×7 / 0.25mm×13）
+- **修正**: 全22ビアを0.3mmに拡大（fix_via_drill.py, commit: 51aff46）
+  - drill=0.15→0.3mm, size=0.3→0.4mm（annular 0.05mm）× 2個
+  - drill=0.2→0.3mm, size=0.4→0.4mm（annular 0.05mm）× 7個
+  - drill=0.25→0.3mm, size=0.5→0.5mm（annular 0.10mm）× 13個
+- **結果**: JLCPCB **Standard PCB**（$2〜5）で発注可能 ← Advanced不要
 
 ---
 
@@ -849,11 +852,11 @@ python3 kicad/route_pcb_v8.py
 **STEP C: 発注準備**
 1. BOM/CPL更新（C14, C15追加 → LCSC: C14663 / 0402）
 2. Gerber再出力
-3. JLCPCB発注時: **Advanced PCB** 選択（最小ドリル径0.15mm対応）【BLOCK-9対応】
+3. JLCPCB発注時: **Standard PCB**（$2〜5）で発注可 【BLOCK-9対応済み・Advanced不要】
 
 ### ⚠️ 注意事項
 - J2移動(0.5mm)後はVUSBルーティングが必要（現状はそもそも未ルーティング）
-- BLOCK-9対応: JLCPCBの「Advanced PCB」は価格が高くなる（~$30→~$50程度）
+- BLOCK-9対応済み: ビア0.3mm拡大でStandard PCBのまま発注可（Advanced不要）
 - C14/C15のスキーマ上の位置はSIM7080G-M/XC6220B付近に設定済み（PCBで再配置要）
 
 ### GNDビア現在位置（205dce5時点）
