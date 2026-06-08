@@ -801,39 +801,60 @@ python3 kicad/route_pcb_v8.py
 
 ---
 
-## ⭐ 次セッション開始手順（修正作業）
+## ⭐ 次セッション開始手順（残作業）
 
-**発注まで残り作業: BLOCK-1〜9の修正 → DRC確認 → Gerber再出力 → JLCPCB Advanced PCB発注**
+**発注まで残り作業: GUI作業（Update PCB + ルーティング）→ DRC → Gerber → BOM/CPL更新 → 発注**
 
-### 優先順序
+### ✅ 完了済み（2026-06-08セッション）
 
-**PHASE 1: 回路図修正（KiCad Schematic Editor）**
-1. R3.pad1 ↔ U4.pad2(PROG) を `PROG` ネットで接続 【BLOCK-1】
-2. R1.pad2 ↔ J2.A5(CC1) を `CC1` ネットで接続 【BLOCK-2】
-3. R2.pad2 ↔ J2.B5(CC2) を `CC2` ネットで接続 【BLOCK-2】
-4. R4.pad1 ↔ LED1.pad2 を `LED_ANODE` ネットで接続 【BLOCK-8】
-5. U4.pad1(TEMP) ↔ +3.3V に接続（温度保護無効化）【要確認A】
-6. U5 VIN直近に100nF 0402追加（VBAT_SWネット）【BLOCK-6】
-7. U1 VBAT_SW直近に100nF 0402追加 【BLOCK-5】
+**PHASE 1: 回路図修正（スクリプト fix_schematic.py で完了）**
+- [x] BLOCK-1: PROG ネット追加（U4.PROG ↔ R3.pin2）commit: 72de77a
+- [x] BLOCK-2: CC1直結GND削除 + CC1/CC2ラベル追加
+- [x] BLOCK-5: C14(100nF/0402/VBAT_SW) スキーマ追加
+- [x] BLOCK-6: C15(100nF/0402/VBAT_SW) スキーマ追加
+- [x] BLOCK-8: LED_ANODE ネット追加（R4.pin2 ↔ LED1.anode）
 
-**PHASE 2: PCBレイアウト修正（KiCad PCB Editor / スクリプト）**
-1. J2を基板内側0.5mmに移動（copper_edge_clearance解消）【BLOCK-3】
-2. C13をJ2から1.5mm離す（courtyards_overlap解消）【BLOCK-4】
-3. ANT3周囲にGND禁止ゾーン追加（全レイヤー、3mm以上）【BLOCK-7】
-4. Update PCB from Schematic → 新規ネット（PROG/CC1/CC2/LED_ANODE）のルーティング
-5. 新規部品（100nF × 2）の配置・ルーティング
+**PHASE 2一部: PCBレイアウト修正（スクリプト fix_pcb_block3_4_7.py で完了）**
+- [x] BLOCK-3: J2を(12,33)→(12,32.5)移動（パッドgap 0→0.40mm） commit: 1ab6731
+- [x] BLOCK-4: C13を(9,33.3)→(4.5,33.3)移動（J2から1.69mm確保）
+- [x] BLOCK-7: ANT3 GND禁止ゾーン F.Cu+B.Cu追加 (-0.5,15.5)〜(6.5,22.5)
 
-**PHASE 3: 発注準備**
-1. DRC実施（shorts=0, unconnected=0, 新規エラーなし）
-2. BOM/CPL更新（新規部品追加）
-3. Gerber再出力
-4. JLCPCB発注画面でCPL回転角目視確認
-5. **Advanced PCB**オプションを選択（最小ドリル径0.15mm以下）
+### 🔲 残り作業（次セッションでKiCad GUI使用）
+
+**STEP A: KiCad Schematic Editor**
+1. ERC実行 → エラー0件確認（または許容範囲か判断）
+2. ⚠️ 要確認A: U4.TEMP(pin1)の処理
+   - 現状: no_connect（floating）
+   - 正しい接続: TEMP→VUSB（5V, U4のVIN=VUSBと同じ）→ 温度保護無効化
+   - ⚠️ +3.3Vは不可（TEMP/VCC=0.66 > 0.45 → チャージ停止になる）
+
+**STEP B: KiCad PCB Editor**
+1. **Tools → Update PCB from Schematic** を実行
+   - 新規ネット追加: PROG, CC1, CC2, LED_ANODE
+   - 新規部品追加: C14(x≈263,y≈53), C15(x≈94,y≈76) — スキーマ上の位置
+2. C14, C15を適切な位置に手動配置（既存部品と重ならない場所）
+3. 新規ネットをルーティング:
+   - PROG: R3(16.5,24.5) ↔ U4.pad2(PROG)(19.02,21.86)
+   - CC1: R1.pad右(16.81,30.2) ↔ J2.CC1(A5パッド) ← J2が(12,32.5)に移動済み
+   - CC2: R2.pad右 ↔ J2.CC2(B5パッド) ← 同上
+   - LED_ANODE: R4.pad ↔ LED1.pad（近距離のはず）
+   - C14/C15: 各2ピン（VBAT_SW + GND）
+4. **B キー** → ゾーン再充填
+5. DRC実行 → 確認ポイント:
+   - shorts=0
+   - copper_edge_clearance: J2 gap≥0.2mm（→0.40mm確認済み）
+   - courtyard_overlap: J2-C13 解消確認
+   - tracks_crossing=0
+
+**STEP C: 発注準備**
+1. BOM/CPL更新（C14, C15追加 → LCSC: C14663 / 0402）
+2. Gerber再出力
+3. JLCPCB発注時: **Advanced PCB** 選択（最小ドリル径0.15mm対応）【BLOCK-9対応】
 
 ### ⚠️ 注意事項
-- BLOCK-3（J2移動）後は周辺配線（VUSB等）の再ルーティングが必要
-- ANT3 GND禁止ゾーン追加後はゾーン再充填必須
-- 新規100nFコン2個の追加はBOM/CPLにも反映すること
+- J2移動(0.5mm)後はVUSBルーティングが必要（現状はそもそも未ルーティング）
+- BLOCK-9対応: JLCPCBの「Advanced PCB」は価格が高くなる（~$30→~$50程度）
+- C14/C15のスキーマ上の位置はSIM7080G-M/XC6220B付近に設定済み（PCBで再配置要）
 
 ### GNDビア現在位置（205dce5時点）
 - (4.0,18.5) × 2本（重複あり）
