@@ -7433,7 +7433,7 @@
 	(via
 		(at 2.875 31.3)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "VBAT")
 		(uuid "23dfcec3-fa21-4112-8eaa-e8450d71371f")
@@ -7441,7 +7441,7 @@
 	(via
 		(at 2.875 26.95)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "VBAT")
 		(uuid "66d22aee-c95e-42b6-b48b-08474adc0c8d")
@@ -7760,8 +7760,8 @@
 	)
 	(via
 		(at 5.35 25.5)
-		(size 0.3)
-		(drill 0.15)
+		(size 0.4)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_PWRKEY")
 		(uuid "bd604c9e-2006-4160-bf44-9ad40b21e7fe")
@@ -7769,7 +7769,7 @@
 	(via
 		(at 2.2 17.2)
 		(size 0.4)
-		(drill 0.2)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_PWRKEY")
 		(uuid "eab360d2-1264-4c05-b485-dd2ec807b5a1")
@@ -7808,8 +7808,8 @@
 	)
 	(via
 		(at 5.35 24)
-		(size 0.3)
-		(drill 0.15)
+		(size 0.4)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_STATUS")
 		(uuid "2d7ed462-4f25-4c5c-82b3-7f72c0ebfc0b")
@@ -7817,7 +7817,7 @@
 	(via
 		(at 5.65 15.4)
 		(size 0.4)
-		(drill 0.2)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_STATUS")
 		(uuid "e79de887-4e13-45ee-a33a-8076016ab4ff")
@@ -7849,7 +7849,7 @@
 	(via
 		(at 6.05 24.25)
 		(size 0.4)
-		(drill 0.2)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_RESETN")
 		(uuid "03136a10-827a-4dee-b46e-dd4246b1b015")
@@ -7857,7 +7857,7 @@
 	(via
 		(at 5.65 13.6)
 		(size 0.4)
-		(drill 0.2)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_RESETN")
 		(uuid "668a6226-1f43-4606-9503-616ea3b182b2")
@@ -7905,7 +7905,7 @@
 	(via
 		(at 5.65 8.2)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_TXD")
 		(uuid "0141971a-c5fa-42e8-88e6-260af140c575")
@@ -7913,7 +7913,7 @@
 	(via
 		(at 9.25 21.05)
 		(size 0.4)
-		(drill 0.2)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_TXD")
 		(uuid "1df49316-848f-457b-87dc-e713e0081326")
@@ -7969,7 +7969,7 @@
 	(via
 		(at 8.75 21.05)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_RXD")
 		(uuid "1fb1618c-0cbf-4ccb-a53f-e8cd2cbcb252")
@@ -7977,7 +7977,7 @@
 	(via
 		(at 5.65 6.4)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_RXD")
 		(uuid "efd031e9-6602-488c-b363-356f37101467")
@@ -8025,7 +8025,7 @@
 	(via
 		(at 10.2 4.4)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_VDD")
 		(uuid "07353e23-8dd0-4469-ba91-6f2e7f02722d")
@@ -8033,7 +8033,7 @@
 	(via
 		(at 21.06 28.8)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_VDD")
 		(uuid "100753ae-4049-4d59-bd12-0ed3a2149945")
@@ -8073,7 +8073,7 @@
 	(via
 		(at 23.6 28.8)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_DATA")
 		(uuid "761de65a-6e59-48f1-8178-a6451e6d2c6c")
@@ -8081,7 +8081,7 @@
 	(via
 		(at 12.6 4)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_DATA")
 		(uuid "ad0c3638-b02a-4679-8d9a-46ca39f9028f")
@@ -8129,7 +8129,7 @@
 	(via
 		(at 15.9 3.4)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_CLK")
 		(uuid "18665223-a724-4a98-a188-2e20963f4a06")
@@ -8137,7 +8137,7 @@
 	(via
 		(at 26.14 28.8)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_CLK")
 		(uuid "ffeef65c-8585-4efc-bb73-690919b90fa0")
@@ -8201,7 +8201,7 @@
 	(via
 		(at 20.5 31.3)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_RST")
 		(uuid "d00a648a-fc87-410c-a7d0-7263b4430e97")
@@ -8209,7 +8209,7 @@
 	(via
 		(at 18.1 2.2)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "SIM_RST")
 		(uuid "d423e910-e471-4ae2-8331-0b657258838c")
@@ -8313,7 +8313,7 @@
 	(via
 		(at 10.25 25.95)
 		(size 0.4)
-		(drill 0.2)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "ACCEL_INT1")
 		(uuid "0ecbab46-c09d-4fcd-abc6-bbd052a88fc2")
@@ -8321,7 +8321,7 @@
 	(via
 		(at 14.262 24.25)
 		(size 0.4)
-		(drill 0.2)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(net "ACCEL_INT1")
 		(uuid "b4155c43-dbc1-4fcc-947f-6b06413a239c")
