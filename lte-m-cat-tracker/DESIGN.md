@@ -944,6 +944,135 @@ U1接続を新座標で書き直す。主な変更点：
 
 ### 🔲 残り作業（次セッション）
 
+---
+
+## ⚠️ route_pcb_v11.py 修正中断（2026-06-09）
+
+**現状**: v11適用後DRC → shorts=19件、crossings=12件
+
+**バックアップ**: `kicad/lte-m-cat-tracker.kicad_pcb.bak_v11`（修正前baseline・83セグメント）
+
+**修正スクリプト**: `kicad/route_pcb_v11.py`（現在shorts=19のまま）
+
+**全shorts・crossings根本原因 分析完了済み（次セッションで実装するだけ）:**
+
+### 修正が必要な6箇所（実装方針確定済み）
+
+#### STEP 5 GNSS_ANT
+- **問題**: F.Cu水平y=12.5がU1.pad25(no-net,center y=12.75)上端y=12.575に0.025mmで重複
+- **修正**: F.Cu水平を y=12.5 → **y=12.0** に変更（B.Cu降下終点も同様）
+- 変更行: `seg(20.5,5.05, 20.5,12.5,...)` → `seg(20.5,5.05, 20.5,12.0,...)`
+- 変更行: `via(20.5,12.5,...)` → `via(20.5,12.0,...)`
+- 変更行: `seg(20.5,12.5, 26.475,12.5,...)` → `seg(20.5,12.0, 26.475,12.0,...)`
+- 変更行: `seg(26.475,12.5, 26.475,13.5,...)` → `seg(26.475,12.0, 26.475,13.5,...)`
+
+#### STEP 7 SIM_STATUS（全面再設計）
+- **問題**: F.Cu縦x=7.0がbaseline +3.3V F.Cu水平線群(y=19.6/20.4/21.0, x=5.3-9.6)を横切る
+- **修正**: F.Cu→B.Cu x=4.7経由に変更
+  ```python
+  # 旧: F.Cu x=7.0縦3本
+  # 新:
+  seg(10.6, 1.26, 4.7, 1.26, W_S,'F.Cu','SIM_STATUS'),
+  via(4.7, 1.26, 'SIM_STATUS'),
+  seg(4.7, 1.26, 4.7, 23.25, W_S,'B.Cu','SIM_STATUS'),
+  via(4.7, 23.25, 'SIM_STATUS'),
+  seg(4.7, 23.25, 6.05, 23.25, W_S,'F.Cu','SIM_STATUS'),
+  ```
+  - x=4.7 B.Cu: GND via(4.0,18.5)から gap=0.3mm ✓ / PWRKEY B.Cu(x=5.5)から gap=0.6mm ✓
+  - +3.3V B.Cu要素は全てx≥6.5 → x=4.7は左側クリア ✓
+  - F.Cu終端(4.7,23.25)→(6.05,23.25): U2 thermal pad左端x=6.65の左側 ✓
+
+#### STEP 9 SIM_TXD（全面再設計）
+- **問題**: B.Cu x=9.5縦がRESETN B.Cu横(y=32.5, x=3.0-23.5)と交差 / +3.3V F.Cu(y=20.4)と近接
+- **修正**: 右側x=26.5経由・y=33.0迂回ルート
+  ```python
+  # 旧: via(25.0,16.05)→B.Cu x=9.5→y=31.5
+  # 新:
+  seg(23.75,16.05, 26.5, 16.05, W_S,'F.Cu','SIM_TXD'),
+  via(26.5, 16.05, 'SIM_TXD'),
+  seg(26.5,16.05, 26.5,33.0, W_S,'B.Cu','SIM_TXD'),
+  seg(26.5,33.0, 2.0,33.0, W_S,'B.Cu','SIM_TXD'),
+  seg(2.0,33.0, 2.0,21.55, W_S,'B.Cu','SIM_TXD'),
+  via(2.0, 21.55, 'SIM_TXD'),
+  seg(2.0,21.55, 9.75,21.55, W_S,'F.Cu','SIM_TXD'),
+  seg(9.75,21.55, 9.75,21.05, W_S,'F.Cu','SIM_TXD'),
+  seg(9.75,21.05, 9.25,21.05, W_S,'F.Cu','SIM_TXD'),
+  ```
+  - x=26.5 B.Cu: SIM_DATA(x=26.0)から gap=0.3mm ✓ / GND via(25.5,11.5)から gap=0.5mm ✓
+  - y=33.0水平: SIM_RST(y=31.3終), RESETN(y=32.5終), ACCEL(y=29.5終) → 全て終点より南 ✓
+  - x=2.0 北上: RESETN B.Cu(x=3.0)から gap=0.8mm ✓ / +3.3V B.Cu(y=26.5, x=3.5-7.75) → x=2.0で届かず ✓
+  - F.Cu y=21.55: +3.3V F.Cu縦先端(y=21.0-21.05)からgap=0.25mm ✓
+
+#### STEP 10 SIM_RXD（全面再設計）
+- **問題**: F.Cu縦(23.75,14.95-15.9)がTXD pad(23.75,16.05)に0.05mmで近接 / B.Cu x=8.0が+3.3V via(7.75,19.6)に重複
+- **修正**: via→B.Cu上迂回(y=0.7)→右(x=29.0)→南下→左→via
+  ```python
+  # 旧: F.Cu右方向→via(28.5)→B.Cu x=5.0
+  # 新:
+  via(23.75, 14.95, 'SIM_RXD'),
+  seg(23.75,14.95, 23.75,0.7, W_S,'B.Cu','SIM_RXD'),
+  seg(23.75,0.7, 29.0,0.7, W_S,'B.Cu','SIM_RXD'),
+  seg(29.0,0.7, 29.0,33.5, W_S,'B.Cu','SIM_RXD'),
+  seg(29.0,33.5, 8.5,33.5, W_S,'B.Cu','SIM_RXD'),
+  seg(8.5,33.5, 8.5,21.05, W_S,'B.Cu','SIM_RXD'),
+  via(8.5, 21.05, 'SIM_RXD'),
+  seg(8.5,21.05, 8.75,21.05, W_S,'F.Cu','SIM_RXD'),
+  ```
+  - B.Cu x=23.75北上: SIM_VDD(x=22.0)とSIM_RST(x=24.0)の間 ✓
+  - y=0.7水平: VBAT_SW B.Cu(y=1.26)より北 → 存在せず ✓
+  - x=29.0南下: board右端付近・他B.Cu要素なし ✓
+  - y=33.5水平: TXD y=33.0より南・全SIMコリドー終点より南 ✓
+  - x=8.5北上: +3.3V via(7.75,19.6)から gap=0.35mm ✓ / TXD B.Cu(x=2.0)から gap=6.3mm ✓
+
+#### STEP 12 SIM_CLK（B.Cu縦x変更）
+- **問題**: CLK B.Cu縦x=25.5がGND via(25.5,11.5)を貫通
+- **修正**: x=25.5 → **x=24.7**
+  ```python
+  # 変更箇所:
+  seg(13.9,2.5, 24.7,2.5, ...)    # 旧25.5→新24.7
+  seg(24.7,2.5, 24.7,28.8, ...)   # 旧25.5→新24.7
+  via(24.7,28.8,...)               # 旧25.5→新24.7
+  seg(24.7,28.8, 24.7,29.3,...)   # 旧25.5→新24.7
+  seg(24.7,29.3, 26.14,29.3,...)  # 旧(25.5,28.8)→新(24.7,28.8)のみ
+  ```
+  - x=24.7: GND via(25.5)から gap=0.4mm ✓ / SIM_RST B.Cu(x=24.0)から gap=0.5mm ✓
+  - TXD B.Cu(x=26.5)から gap=1.6mm ✓
+  - y=2.5水平: SIM_RST B.Cu縦(x=24.0, y=3.0-31.3)はy=3.0始まり → y=2.5で交差しない ✓
+
+#### STEP 1 VBAT（交差回避）
+- **問題**: VBAT F.Cu縦x=2.875(y=26.95-32.65)がVBAT_SW F.Cu横(y=28.5, x=2.0-10.55)と交差
+- **修正**: VBAT縦をx=2.875→x=1.5に迂回（VBAT_SW F.Cu左端x=2.0より左）
+  ```python
+  # 旧:
+  seg(2.875, 32.65, 2.875, 26.95, W_P, 'F.Cu', 'VBAT'),
+  # 新:
+  seg(2.875, 32.65, 1.5, 32.65, W_P, 'F.Cu', 'VBAT'),
+  seg(1.5, 32.65, 1.5, 26.95, W_P, 'F.Cu', 'VBAT'),
+  seg(1.5, 26.95, 2.0, 26.95, W_P, 'F.Cu', 'VBAT'),
+  ```
+  - x=1.5: VBAT_SW F.Cu(x=2.0)の左側 ✓ / VBAT_SW B.Cu(x=1.55)は別layer ✓
+  - board左端x=0との間: 1.5mm ✓
+
+### 残存する偽陽性（対処不可）
+以下はU2全パッドがPCBにnet未割当なために発生するDRC偽陽性:
+- SIM_PWRKEY と (no-net) at U2.pad7/8
+- SIM_TXD と (no-net) at U2.pad26/27
+- SIM_RXD と (no-net) at U2.pad28
+- SIM_RESETN と (no-net) at U2.pad5/6
+- SIM_STATUS と (no-net) at U2.pad4
+
+→ ネットを割り当てなければ解消しない。試作ではU2パッドへの配線正否は目視確認で対応。
+
+### 次セッション手順
+1. `cp lte-m-cat-tracker.kicad_pcb.bak_v11 lte-m-cat-tracker.kicad_pcb`（baseline復元）
+2. 上記6箇所を route_pcb_v11.py に適用
+3. `python3 kicad/route_pcb_v11.py`
+4. `kicad-cli pcb drc --output drc_v11.json --format json lte-m-cat-tracker.kicad_pcb`
+5. 偽陽性以外のshorts=0、crossings=0を確認
+6. Gerber生成 → 5専門家レビュー → 発注判断
+
+---
+
 **STEP C: 発注**
 - JLCPCB Standard PCB（$2〜5）で発注可（BLOCK-9済み）
 - **必須: CPL回転角をJLCPCB発注画面で目視確認**（特にU1 SIM7080G-M）
