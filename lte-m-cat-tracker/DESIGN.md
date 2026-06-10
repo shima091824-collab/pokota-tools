@@ -1652,11 +1652,26 @@ Lilygo T-SIM7080G-S3（TELEC Certification版）の同梱物：
 - [Traccar OSS](https://www.traccar.org/)
 - [総務省180日特例制度](https://www.tele.soumu.go.jp/j/sys/others/exp-sp/)
 
-## ⚠️ 中断状態（2026-06-10 残未配線ルーティング設計中・コミット済みPCBは変更なし）
+## ✅ route_pcb_v12 完了（2026-06-10 残未配線4ネット実装・信号系全配線完了）
 
-**コミット6588a4e（crossings=0達成）から作業継続中。route_pcb_v11.py/PCBは未変更。設計検討のみ完了。**
+**route_pcb_v12.py 適用済み。DRC: 実shorts=0 / crossings=0 / 未配線58件（全てGNDゾーン未充填分）。信号・電源ネットは全て配線完了。**
 
-### 確定済みルート案（check_route.pyで検証済み・次セッションでroute_pcb_v11.pyに実装する）
+### v12実装内容（DESIGN.md案からの変更点）
+1. RXD西詰め x=8.7→8.35: 案通り ✅
+2. **ACCEL_INT1: 案のy=26.1回廊は破棄**。scan_accel_via.pyで全探索（X=10.6-11.95, H=25.8-26.75）した結果候補0件。
+   SCL F.Cu(y=26.5)と+3.3V via(11.8,25.5)・+3.3V枝(10.95-11.8,y=25.25-25.5)に挟まれvia(0.6mm)が物理的に入らない。
+   → **旧南回り維持・横断のみy=29.5→29.85**（新SDA x=14.875南端y=29.3とのgap 0.025を0.375に改善）+ U3.7-8-9パッド列接続
+3. I2C_SDA: 案通り＋東via y=29.3→**29.225**（VBAT y=28.5とCC2 y=29.8に挟まれ両側0.2不可〔隙間0.95<必要1.0〕→両側gap=0.175均等配分）
+4. VBAT_SW 3島: 案通り＋**左右島の橋 F.Cu y=2.6 (8.4→18.3) w0.5 を追加**（案の3本だけでは左島と右島が未接続だった。U1内部LGA行間y=1.26-5.05の空きバンド・check_route違反0件）
+
+### 新規clearanceマージナル（許容・JLC最小0.127以上）
+SDA via×PROG 0.175 / SDA via×CC2 0.175 / SDA via×VBAT 0.175 / SDA seg×+3.3V 0.15 / SDA via×SCLパッド 0.175
+
+### 次のステップ
+1. **GNDベタゾーン追加（次の作業）**: zone数0。pcbnew Python API（/Applications/KiCad/KiCad.app内のPython）でF.Cu/B.Cu両面GNDゾーン追加+ZONE_FILLER充填+保存→DRCでGND未配線58件解消を確認
+2. Gerber生成 → 5専門家レビュー → 発注判断
+
+### 参考: v12実装前の設計案（履歴・check_route.pyで検証したもの）
 
 前提: 旧ACCEL_INT1のB.Cu南回り(x=14.2625/y=29.5/x=10.85)とvia(10.85,25.95)+F.Cuスタブを削除（remove_segment/remove_via使用）。RXDのx=8.7縦・y=33.0 F.Cu・via(8.7,33.0)/(8.7,21.05以外)も差し替え。
 
