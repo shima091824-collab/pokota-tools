@@ -491,7 +491,7 @@ void setup() {
 
   // STEP 6: PSM 再有効化 → deep sleep
   setupPSM();
-  goToDeepSleep(2);  // ★テスト用2分。本番は GPS_INTERVAL_MIN(30分) に戻す
+  goToDeepSleep(GPS_INTERVAL_MIN);  // 本番値30分（PSM電流実測の測定時間も兼ねる）
 }
 
 void loop() {
