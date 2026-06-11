@@ -233,7 +233,7 @@
 				)
 			)
 		)
-		(property "Value" "ESP32-C3"
+		(property "Value" "ESP32-C3FH4"
 			(at 16.256 23.876 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2621,9 +2621,9 @@
     (exclude_from_sim no)(in_bom yes)(on_board yes)
     (uuid "e1630c89-2587-4054-aed2-5e9b73428047")
     (property "Reference" "U2" (at 88.9 197.16 0)(effects(font(size 1.27 1.27))))
-    (property "Value" "ESP32-C3" (at 88.9 198.66 0)(effects(font(size 1.27 1.27))))
+    (property "Value" "ESP32-C3FH4" (at 88.9 198.66 0)(effects(font(size 1.27 1.27))))
     (property "Footprint" "Package_DFN_QFN:QFN-32-1EP_5x5mm_P0.5mm_EP3.7x3.7mm" (at 88.9 200.66 0)(effects(font(size 1.27 1.27))hide))
-    (property "LCSC" "C2838500" (at 88.9 200.66 0)(effects(font(size 1.27 1.27))hide))
+    (property "LCSC" "C2858491" (at 88.9 200.66 0)(effects(font(size 1.27 1.27))hide))
   )
   (symbol (lib_id "power:+3.3V") (at 78.74 175.26 0)(unit 1)
     (exclude_from_sim no)(in_bom no)(on_board no)(uuid "5fe07a1a-c91d-4efa-b41d-858edcec575a")
