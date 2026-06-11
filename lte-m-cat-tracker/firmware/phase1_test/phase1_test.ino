@@ -31,7 +31,7 @@ const char* HOME_SSID = "Buffalo-2G-09C8";
 const char* APN = "soracom.io";
 
 // Traccar サーバー設定
-const char* TRACCAR_HOST = "192.168.1.100";  // TraccarサーバーのIPまたはドメイン
+const char* TRACCAR_HOST = "192.168.11.3";  // Mac(Traccar)のLAN IP・2026-06-11実測。DHCPで変わりうるので次回 ipconfig getifaddr en0 で再確認
 const int   TRACCAR_PORT = 5055;
 const char* DEVICE_ID   = "cat-tracker-001";
 
