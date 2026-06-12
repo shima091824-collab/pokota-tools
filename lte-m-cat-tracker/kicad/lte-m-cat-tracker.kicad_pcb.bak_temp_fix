@@ -804,7 +804,6 @@
 			(at -2.475 -1.905)
 			(size 1.95 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "GND")
 			(thermal_bridge_angle 45)
 			(uuid "4f1ec79c-93aa-461f-9bf9-1725762bd459")
 		)
@@ -7923,14 +7922,6 @@
 		(layers "F.Cu" "B.Cu")
 		(net "GND")
 		(uuid "28e414b7-268e-4dd2-b651-9fd96c6155ab")
-	)
-	(via
-		(at 19.1 20.595)
-		(size 0.5)
-		(drill 0.3)
-		(layers "F.Cu" "B.Cu")
-		(net "GND")
-		(uuid "aa11d04e-7e57-4e57-9e57-20260613f001")
 	)
 	(via
 		(at 5.2 23.9)
