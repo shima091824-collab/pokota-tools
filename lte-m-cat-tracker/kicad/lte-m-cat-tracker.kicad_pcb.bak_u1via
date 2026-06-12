@@ -8061,14 +8061,6 @@
 		(uuid "aa11d04e-7e57-4e57-9e57-20260613f001")
 	)
 	(via
-		(at 17.2 1.26)
-		(size 0.5)
-		(drill 0.3)
-		(layers "F.Cu" "B.Cu")
-		(net "GND")
-		(uuid "aa11d04e-7e57-4e57-9e57-20260613f004")
-	)
-	(via
 		(at 12.5 23.9)
 		(size 0.6)
 		(drill 0.3)
