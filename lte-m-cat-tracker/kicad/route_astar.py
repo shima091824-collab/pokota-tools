@@ -7,7 +7,7 @@
 import sys, re, math, heapq
 
 RES = 0.05  # グリッド解像度mm
-W, H = 30.0, 35.0
+W, H = 33.0, 35.0
 NX, NY = int(W/RES)+1, int(H/RES)+1
 TRACK_W = 0.2
 CLR = 0.2
