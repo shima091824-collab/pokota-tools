@@ -69,7 +69,7 @@ def get_cost_and_consume(title, inventory, qty=1):
     在庫をqty分消費し（FIFOで古いロットから）、inventory を更新する。
     在庫がないキーワードにはマッチしない。
     """
-    for keyword, lots in inventory.items():
+    for keyword, lots in sorted(inventory.items(), key=lambda x: len(x[0]), reverse=True):
         if keyword in title:
             # 有効ロット（stock > 0）を日付順に取得
             active = [lot for lot in lots if lot['stock'] > 0]
