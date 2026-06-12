@@ -26,7 +26,7 @@ def load_all(path):
     for m in re.finditer(r'\(via\s+\(at ([\d.-]+) ([\d.-]+)\)\s+\(size ([\d.]+)\)\s+\(drill ([\d.]+)\)[\s\S]{0,400}?\(net "([^"]*)"\)', s):
         x,y,d,dr = map(float, m.groups()[:4])
         items.append(('via', m.group(5), '*', x,y,d))
-        holes.append((x,y,dr))
+        holes.append((x,y,dr,m.group(5)))
     for fp in re.split(r'\n\t\(footprint ', s)[1:]:
         mat = re.search(r'\n\t\t\(at ([\d.-]+) ([\d.-]+)(?: ([\d.-]+))?\)', fp)
         if not mat: continue
@@ -50,7 +50,7 @@ def load_all(path):
             else:
                 items.append(('pad', net, 'F.Cu', gx,gy,sw,sh))
                 items.append(('pad', net, 'B.Cu', gx,gy,sw,sh))
-                if pm.group(8): holes.append((gx,gy,float(pm.group(8))))
+                if pm.group(8): holes.append((gx,gy,float(pm.group(8)),net))
     return items, holes
 
 def idx(ix,iy): return iy*NX+ix
@@ -109,9 +109,11 @@ def build_grids(items, holes, net):
             paint_rect(tr[lay], gx,gy,sw,sh, CLR+half)
             paint_rect(via, gx,gy,sw,sh, CLR+VIA_DIA/2)
     # 穴ルール: 既存穴 vs 新銅(0.25) / 新穴 vs 既存銅(0.25) / 穴↔穴(0.25)
-    for hx,hy,hd in holes:
-        paint_circle(tr['F.Cu'], hx,hy, hd/2 + HOLE_CLR + half)
-        paint_circle(tr['B.Cu'], hx,hy, hd/2 + HOLE_CLR + half)
+    for h in holes:
+        hx,hy,hd=h[0],h[1],h[2]; hnet=h[3] if len(h)>3 else ''
+        if hnet!=net:
+            paint_circle(tr['F.Cu'], hx,hy, hd/2 + HOLE_CLR + half)
+            paint_circle(tr['B.Cu'], hx,hy, hd/2 + HOLE_CLR + half)
         paint_circle(via, hx,hy, hd/2 + HOLE_CLR + VIA_DRILL/2)
     for it in items:
         # 新ビアの穴 vs 既存銅（同ネット含む・ただし開始/終了パッド上は呼び出し側で許可）
